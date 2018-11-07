@@ -1,0 +1,54 @@
+{% extends "double_auction/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+Part 1
+{% endblock %}
+
+{% block content %}
+
+Feedback
+
+<br>
+<table id="payoff_table" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Round #</th>
+            <th>{% if participant.vars.role == "buyer" %}
+                Valuation
+                {% else %}
+                Cost
+                {% endif %}
+            </th>
+            <th>Trading Price</th>
+            <th>Payoff</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="payoff in roundsPayoff" v-bind:class="{ warning: payoff.test_round }">
+            <td>${ payoff.round_number }  <span v-if="payoff.test_round" class="badge badge-info">Test</span></td>
+            <td>${ payoff.valuation }</td>
+            <td>${ payoff.trading_price }</td>
+            <td>${ payoff.payoff }</td>
+        </tr>
+    </tbody>
+</table>
+
+    {% next_button %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var roundsPayoff = {{ rounds_payoff | json }};
+    var chosenRound = {{ participant.vars.chosen_round }};
+</script>
+<script src="{% static 'double_auction/endResults.js' %}" charset="utf-8"></script>
+{% endblock %}
+
+{% block styles %}
+<style type="text/css">
+    .otree-title {
+        text-align: center;
+    }
+</style>
+{% endblock %}

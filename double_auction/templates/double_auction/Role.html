@@ -1,0 +1,26 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+Part 1
+{% endblock %}
+
+{% block content %}
+    <h3>You were randomly assigned the role of a <strong>{{participant.vars.role}}</strong>.
+        You will keep this role throughout all rounds of the game.</h3>
+
+
+
+    {% next_button %}
+{% endblock %}
+
+
+
+
+{% block styles %}
+<style type="text/css">
+    .otree-title {
+        text-align: center;
+    }
+</style>
+{% endblock %}

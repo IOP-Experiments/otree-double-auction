@@ -1,0 +1,65 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+Welcome and thank you for your participation!
+{% endblock %}
+
+{% block content %}
+
+<!--
+Documentation on how to write a django template here:
+https://docs.djangoproject.com/en/1.8/ref/templates/language/
+
+Bootstrap comes pre-loaded, so you can use any Bootstrap elements:
+http://getbootstrap.com/components/
+
+-->
+
+<div class="instructions well well-lg">
+
+    <h2>Rules of the Game</h2>
+
+
+    <p>This is an experiment in economic decision making. Please read the following instructions carefully. Depending on your decisions and the decisions of the other participants, you can earn points which will be paid to you in real money at the end of the experiment via MTurk. One point equals 0.1 dollars. The amount you earn will be added to the general participation reward of 2.5 dollars that is paid independently of any decision. </p>
+    <h3>General rules</h3>
+    <p>In this experiment you will be part of a market consisting of {{ daPlayers }} buyers and {{ daPlayers }} sellers. You will be randomly assigned one of the two roles and you will keep this role throughout the experiment. There will be 10 trading periods. From trading periods 1 to 10, one period will be randomly chosen to count for your payment.</p>
+    <p>Each seller can produce a fictional good that he can sell. At the beginning of each period, a seller learns how much it costs to produce this good (production costs). These production costs can differ from period to period.</p>
+    <p>Each buyer can buy the fictional good. At the beginning of each period, a buyer learns how much the good is worth to him (valuation). This valuation can differ from period to period.</p>
+    <p>Production costs and valuations will be randomly assigned in every period and are taken from the set {10, 20, 30, 40, 50, 60, 70, 80, 90}. Among the sellers, each number is distributed only once within a period, i.e. one seller is assigned production costs of 10, another seller is assigned production costs of 20, yet another seller is assigned production costs of 30 and so on. The same holds true for the buyers: Among the buyers, each number is distributed only once within a period, e.g. one buyer is assigned a valuation of 10, another buyer is assigned a valuation of 20, yet another buyer is assigned a valuation of 30 and so on.</p>
+
+    <h3>Trading</h3>
+
+    <p> In each of the 10 periods, the market opens for 3 minutes.  </p>
+    <p> Each seller can post an offer, i.e. a price at which he is willing to sell the good. Within the 3 minutes, a seller can revise his offer as many times as he likes and replace it by a new one. </p>
+    <p> At the same time, each buyer can post a bid, i.e. a price at which he is willing to buy the good. Within the 3 minutes, a buyer can revise his bid as many times as he likes and replace it by a new one.</p>
+    <p> On the screen, every participant can see the offers and bids from all sellers and buyers. </p>
+    <p> If a seller sees a bid that he wants to accept, he can do so by pushing the accept-button that shows up directly at the bid. A trade then occurs at the price that was accepted. When a trade occurs, a seller gets: </p>
+    <p class="centered"><strong>Earnings(Seller) = Price – cost</strong></p>
+    <p> For example, if a seller has production costs of 30 and accepts a bid of 60, earnings are 60 – 30 = 30. </p>
+    <p> If a buyer sees an offer that he wants to accept, he can do so by pushing the accept-button that shows up directly at the offer. A trade then occurs at the price that was accepted. When a trade occurs, a buyer gets: </p>
+    <p class="centered"><strong>Earnings(Buyer) = Valuation – price</strong></p>
+    <p>For example, if a buyer has a valuation of 80 and accepts an offer of 60, earnings are 80 – 60 = 20.</p>
+    <p>If no trade occurs, earnings are 0. </p>
+
+    <h3>Trading rules</h3>
+
+    <p>A seller cannot make an offer that is lower than his production costs. For example, if a seller has production costs of 70, he can only make offers of 70 or higher (since he would make a loss if he sold at a price lower than his production costs).  In addition, a seller cannot make higher offers than the lowest offer in the market. For example, if another seller made on offer of 80, a seller can only make an offer of 80 or lower.</p>
+    <p>A buyer cannot make a bid that is higher than his valuation. For example, if a buyer has a valuation of 40, he can only make bids of 40 or lower (since he would make a loss if he buys at a price higher than his valuation). In addition, a buyer cannot post a lower bid than the highest bid in the market. For example, if another buyer made a bid of 30, a buyer can only make an offer of 30 or higher.</p>
+
+
+</div>
+
+    <h2>Control questions</h2>
+
+    <p>Please answer the following questions to make sure you understood the rules of the game correctly.  </p>
+
+    {% for field in form %}
+    {% formfield field %}
+    {% endfor %}
+
+    {% next_button %}
+
+{% endblock %}
+
+

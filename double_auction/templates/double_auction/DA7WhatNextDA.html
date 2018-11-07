@@ -1,0 +1,54 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+Part 1
+{% endblock %}
+
+{% block content %}
+
+<!--
+Documentation on how to write a django template here:
+https://docs.djangoproject.com/en/1.8/ref/templates/language/
+
+Bootstrap comes pre-loaded, so you can use any Bootstrap elements:
+http://getbootstrap.com/components/
+
+-->
+
+<div class="instructions well well-lg">
+
+    <h2>  What comes next </h2>
+
+
+    <ul>
+        <li>If you click on the next button, you will enter a waiting screen.
+            Please be patient and wait until everyone finished reading the instructions and answering the questions.
+            This could take a couple of minutes.</li>
+        <li> Afterwards, you will learn your role: Seller or buyer.</li>
+        <li> There will be two test trading rounds to make you familiar with the screen and the rules.
+            The earnings from the test rounds do not count for payment.</li>
+        <li> After the two test rounds, there will be 10 trading rounds.</li>
+        <li> Remember: <b>One</b> out of the 10 trading rounds will be randomly chosen at the end of part 3 to count for payment.
+            The chosen round determines the money that will be added to your participation reward of {{ session.config.participation_fee }}.
+            One point equals {{ payoff_per_point }}. You will learn which round was chosen and the money you earned after finishing part 3.</li>
+        <li> Due to technical problems or other reasons it can happen that participants drop out of the study.
+            To carry on with the game, automated players will take the open spots.
+            Such a bot will always offer the good at price equal to his production costs as a seller and bid at price equal to his valuation as a buyer.
+            Bots will be indicated as such. (Therefore, all other players are real human players.)
+        </li>
+    </ul>
+</div>
+
+    {% next_button %}
+
+{% endblock %}
+
+
+{% block styles %}
+<style type="text/css">
+    .otree-title {
+        text-align: center;
+    }
+</style>
+{% endblock %}

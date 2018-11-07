@@ -1,0 +1,16 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+<link href="{% static "double_auction/toastr.min.css" %}" rel="stylesheet" />
+
+{% endblock %}
+
+{% block app_scripts %}
+
+<script src="{% static "double_auction/vue.js" %}"></script>
+<script>Vue.options.delimiters = ["${", "}"]</script>
+<script src="{% static "double_auction/toastr.min.js" %}"></script>
+
+{% endblock %}
+

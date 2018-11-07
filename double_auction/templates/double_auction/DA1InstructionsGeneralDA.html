@@ -1,0 +1,45 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+Welcome and thank you for your participation!
+{% endblock %}
+
+{% block content %}
+
+<!--
+Documentation on how to write a django template here:
+https://docs.djangoproject.com/en/1.8/ref/templates/language/
+
+Bootstrap comes pre-loaded, so you can use any Bootstrap elements:
+http://getbootstrap.com/components/
+
+-->
+
+<div class="instructions well well-lg">
+
+    <p>This is a study of decision-making. Please read the following instructions carefully.</p>
+
+    <p>The study consists of 3 parts:</p>
+
+     <ul>
+         <li>Part 1: An interactive game</li>
+         <li>Part 2: A decision scenario</li>
+         <li>Part 3: A short questionnaire</li>
+     </ul>
+
+    <p>We will explain each part of the study before the respective part will start.</p>
+    <p>You will receive a fixed participation reward of <b>{{ session.config.participation_fee }}</b> at the end of part 3.
+        In part 1, you can earn additional points which will be converted to real money.</p>
+
+    <p><center>One point equals <b>{{ payoff_per_point }}</b>.</center></p>
+
+    <p>The money you will earn in part 1 will be added to the fixed participation reward of <b>{{ session.config.participation_fee }}</b>.
+    In parts 2 and 3, no additional money can be earned. Please note that you have to finish all 3 parts of the study
+    to receive payment. You will receive your payment through MTurk at the end of the study. </p>
+
+</div>
+
+    {% next_button %}
+
+{% endblock %}

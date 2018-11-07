@@ -1,0 +1,263 @@
+{% extends "double_auction/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+Part 1
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var errorExists
+    {% if form.errors %}
+    errorExists = true;
+    {% endif %}
+</script>
+<script src="{% static 'double_auction/instructions.js' %}" charset="utf-8"></script>
+{% endblock %}
+
+
+{% block content %}
+
+
+<!--
+Documentation on how to write a django template here:
+https://docs.djangoproject.com/en/1.8/ref/templates/language/
+
+Bootstrap comes pre-loaded, so you can use any Bootstrap elements:
+http://getbootstrap.com/components/
+
+-->
+
+<div id="cont1">
+
+<div class="instructions well well-lg" v-if="active===0">
+
+        <h3>General rules</h3>
+
+    <p>In this part, you will be interacting in an online <b>market</b> consisting of {{ daPlayers }} buyers and {{ daPlayers }} sellers.
+        These are real people interacting in real-time. You will be randomly assigned to the role of a buyer or the role of a seller.
+        You will keep this role throughout the entire duration of the game. You will learn your role after reading the instructions. </p>
+
+    <p>There will be {{ num_of_rounds }} trading rounds in which you can earn points by trading.
+        One of these {{ num_of_rounds }} rounds will be randomly chosen at the end of the study to count for your payment.
+        In each of the {{ num_of_rounds }} trading rounds, the market opens for 60 seconds,
+        during which trading between buyers and sellers is possible.</p>
+
+
+
+    <div class="img_box">
+            <img src="{% static "instructions/Bild1.png" %}" class="img-fluid" alt="Market" />
+        </div>
+
+
+
+<br>
+
+
+
+    <h3>What can a buyer do?</h3>
+
+    <p>In each trading round, each buyer can buy <strong>one unit</strong> of a fictional good.
+        By buying and hence owning this good, buyers receive a benefit in terms of a valuation.
+        At the beginning of each trading round, each buyer learns how much the good is worth to him,
+        i.e. he learns his own valuation. These valuations are different for each buyer and measured in points.
+        The valuations will be randomly assigned to the buyers in each round and can be
+        30, 40, 50, 60, 70, 80, 90, 100 or 110 points. Among the buyers, each number is assigned only once within a round,
+        i.e. one buyer is assigned a valuation of 30 points, another buyer is assigned a valuation of 40 points,
+        yet another buyer is assigned a valuation of 50 points and so on. </p>
+
+
+    <h3>What can a buyer earn?</h3>
+
+   <p> A buyer can earn points by trading, i.e. by buying the good from a seller.
+    If a trade occurs, a buyer gets the valuation (measured in points) minus the price (measured in points):</p>
+    <p class="centered"><strong>Buyer's earnings in points = Valuation - price</strong></p>
+   <p> If no trade occurs, a buyer earns 0 points.</p>
+
+
+    <h3>How does trading work for the buyer?</h3>
+
+     <p>Trading is done on an online market platform. A buyer can trade in <u>two possible ways</u>: </p>
+    <ol>
+
+    <li>
+         He can accept an ask that has been submitted by a seller. The trade then occurs at the price of the ask.</li>
+    <li> Alternatively, he can submit a bid, i.e. the price at which he is willing to buy.
+        If a seller accepts this bid or submits a lower ask, the trade occurs at the price of this bid.</li>
+
+    </ol>
+
+    <p>The two possible ways of trading will be explained in more detail later on the screen.</p>
+
+
+    <p>The following screenshot shows how the online market platform looks like:</p>
+
+    <div class="img_box">
+            <img src="{% static "instructions/buyernew.PNG" %}" class="img-fluid" width="600" alt="Market" />
+        </div>
+    <br>
+
+
+
+    <p>In each trading round, buyers are numbered consecutively from 1 to 9.
+        The numbers change each round such that no buyer can be identified.
+        In the example, the buyer has number 8. The valuation of the buyer in this round is 50,
+        as you can see from the message on the screen <i>"Your valuation is 50"</i>.
+        You see a list with all market participants at the right side of the screen.
+        Bids and asks of the buyers and sellers are displayed in the table <i>"Current bids and asks"</i>. </p>
+
+    <p>At the beginning of each round, there is a countdown of 10 seconds during which each buyer learns his valuation.
+        Then the market opens for 60 seconds. While the market is open,
+        each buyer can trade one unit of the good by accepting an ask of a seller or by submitting a bid
+        (these are the two possible ways of trading shortly described before): </p>
+
+<ol>
+
+
+    <li>
+        <p> <strong>Each buyer can accept an ask </strong> from the table <i>"Current bids and asks"</i>.
+        He does so by clicking on the accept button that shows up next to the lowest ask in the table.
+        The good then trades for the price of the ask. </p>
+
+    </li>
+
+
+<li>
+    <p> Alternatively, <strong>each buyer can submit a bid</strong>, i.e. a price at which he is willing to buy the good.
+        In order to do so, he can enter a value and click on <i>Submit</i>. The bid then appears in the table
+        <i>"Current bids and asks"</i> and is visible to all sellers and buyers.
+        Within a trading round, a buyer can revise his bid as many times as he likes and replace it by a new one.
+        If a seller accepts the bid of the buyer, trade occurs at the price of the bid.
+        <u>To avoid a loss, a buyer can only submit bids that are equal to or lower than his valuation.</u>  </p>
+    <p> If a buyer submits a bid and there are lower asks in the table, trade occurs at the price of the lowest ask.
+        In principle, it is the same as if the buyer had directly accepted the lowest (and thus currently best) ask in the table.  </p>
+
+</li>
+</ol>
+
+
+    <br>
+    <p>When the market closes, each buyer receives feedback about his payoff and all trades from that round.  </p>
+
+</div>
+
+<div class="instructions well well-lg" v-if="active===1">
+
+
+    <h3>What can a seller do?</h3>
+
+
+   <p> In each trading round, each seller can produce <strong>one unit</strong> of a fictional good that he can sell in the market.
+    At the beginning of each trading round, each seller learns how much it costs for him to produce this good,
+    i.e. he learns his own production costs. These production costs are measured in points.
+    They will be randomly assigned to the sellers in each round and can be 10, 20, 30, 40, 50, 60, 70, 80 or 90 points.
+    Among the sellers, each number is assigned only once within a round, i.e. one seller is assigned production costs of 10 points,
+    another seller is assigned production costs of 20 points, yet another seller is assigned production costs of 30 points and so on. </p>
+
+
+
+     <h3>What can a seller earn?</h3>
+
+   <p> A seller can earn points by trading, i.e. by selling the good to a buyer.
+        If a trade occurs, a seller gets the price (measured in points) minus the production costs (measured in points): </p>
+    <p class="centered"><strong>Seller's earnings in points = Price – production costs</strong></p>
+   <p> If no trade occurs, the good is not produced, i.e. the seller does not pay the production costs.
+       Thus, if no trade occurs, a seller earns 0 points.</p>
+
+
+    <h3>How does trading work for the seller?</h3>
+
+    <p>Trading is done on an online market platform. A seller can trade in two possible ways: </p>
+
+    <ol>
+
+    <li> He can accept a bid that has been submitted by a buyer. The trade then occurs at the price of this bid. </li>
+    <li> Alternatively, he can submit an ask, i.e. the price at which he is willing to sell.
+        If a buyer accepts this ask or submits a higher bid, the trade occurs at the price of this ask.  </li>
+
+    </ol>
+
+    <p>The two possible ways of trading will be explained in more detail later on the screen.</p>
+
+    <p>The following screenshot shows how the online market platform looks like:</p>
+
+    <div class="img_box">
+            <img src="{% static "instructions/sellernew.PNG" %}" class="img-fluid" width="600" border="2" align="middle" alt="Market" />
+        </div>
+    <br>
+
+
+    <p>In each trading round, sellers are numbered consecutively from 1 to 9.
+        The numbers change each round such that no seller can be identified.
+        In the example, the seller has number 6. The production costs of the seller in this round are 20,
+        as you can see from the message on the screen <i>"Your production costs are 20"</i>.
+        You see a list with all market participants at the right side of the screen.
+        Bids and asks of the buyers and sellers are displayed in the table <i>"Current bids and asks"</i>. </p>
+
+
+    <p>At the beginning of each round, there is a countdown of 10 seconds during which each seller learns his production costs.
+        Then the market opens for 60 seconds. While the market is open, each seller can trade one unit of the good
+        by accepting a bid of a buyer or by submitting an ask: </p>
+
+<ol>
+
+    <li>
+        <p> <strong>Each seller can accept a bid</strong> from the table <i>"Current bids and asks"</i>.
+        He does so by clicking on the accept button that shows up next to the highest bid in the table.
+            The good trades at the price of the bid. </p>
+
+    </li>
+
+
+    <li>
+        <p> Alternatively, <strong>each seller can submit an ask</strong>, i.e. a price at which he is willing to sell the good.
+        In order to do so, he can enter a value and click on <i>Submit</i>.
+        The ask then appears in the table <i>"Current bids and asks"</i> and is visible to all sellers and buyers.
+        Within a trading round, a seller can revise his ask as many times as he likes and replace it by a new one.
+            If a buyer accepts the ask of the seller, trade occurs at the price of the ask.
+        <u>To avoid a loss, a seller can only submit asks that are equal to or above his production costs. </u>  </p>
+
+
+    <p> If a seller submits an ask and there are higher bids in the table, trade occurs at the price of the highest bid.
+        In principle, it is the same as if the seller had directly accepted the highest bid in the table.   </p>
+
+</li>
+</ol>
+
+    <br>
+    <p>When the market closes, each seller receives feedback about his payoff and all trades from that round.</p>
+    <br>
+
+</div>
+
+<button class="btn btn-primary" type="button" v-if="2 > active && active > 0" v-on:click="back()">Back</button>
+<button class="btn btn-primary" type="button" v-if="active < 2" v-on:click="next()">Next</button>
+
+<div class="instructions well well-lg" v-if="active===2">
+
+    <h2>Quiz</h2>
+    <br>
+    <h5>Please answer the following questions to make sure you understood the rules of the game correctly. </h5>
+    <br>
+    {% for field in form %}
+    {% formfield field %}
+    {% endfor %}
+
+</div>
+<div v-if="active===2">
+<button class="btn btn-primary" type="button" v-on:click="back()">Back</button>
+<button class="btn btn-primary" type="submit">Submit</button>
+</div>
+
+</div>
+
+{% endblock %}
+
+
+{% block styles %}
+<style type="text/css">
+    .otree-title {
+        text-align: center;
+    }
+</style>
+{% endblock %}

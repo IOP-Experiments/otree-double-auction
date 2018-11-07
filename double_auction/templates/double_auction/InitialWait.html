@@ -1,0 +1,25 @@
+{% extends "otree/WaitPage.html" %}
+{% load staticfiles otree %}
+
+
+{% block title %}
+Part 1
+{% endblock %}
+
+{% block content %}
+{% if subsession.round_number == 1 %}
+<p><strong>Thank you very much for your participation.</strong></p>
+<p>Please wait until all market participants finish reading the instructions.
+    This could take a couple of minutes. Please be patient. </p>
+{% else %}
+<p><strong>Next round starts in a couple seconds.</strong></p>
+{% endif %}
+{% endblock %}
+
+{% block styles %}
+<style type="text/css">
+    .otree-title {
+        text-align: center;
+    }
+</style>
+{% endblock %}

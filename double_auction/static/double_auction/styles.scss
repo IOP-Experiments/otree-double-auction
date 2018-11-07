@@ -1,0 +1,75 @@
+body {
+    background-color: #eee;
+}
+
+.white-background {
+    padding: 1rem 2rem;
+    background-color: #fff;
+}
+
+#da_form {
+    margin: 2rem 0;
+}
+
+.status {
+  // &.match:after {
+  //   background-color: #94E185;
+  //   border-color: #78D965;
+  //   box-shadow: 0px 0px 4px 1px #94E185;
+  // }
+  // &:after {
+  //   content: ' ';
+  //   display: inline-block;
+  //   width: 7px;
+  //   height: 7px;
+  //   margin-left: 10px;
+  //   border: 1px solid #000;
+  //   border-radius: 7px;
+  // }
+  &.match {
+    >strong {
+        color: #94E185;
+    }
+    >span {
+        animation: blinker 1s linear infinite;
+
+    }
+  }
+}
+
+span.label {
+    margin-left: 10px;
+}
+
+@keyframes blinker {  
+    50% { opacity: 0; }
+}
+
+.centered {
+    text-align: center;
+}
+
+.input-group {
+    max-width: 250px;
+}
+
+input[type=number].form-control {
+    width: 100%;
+}
+
+.top-margin {
+    margin-top: 10px;
+}
+
+.fixed {
+    table-layout: fixed;
+}
+
+#transaction {
+    td>span.label {
+        margin-left: 12px;
+    }
+    table {
+        table-layout: fixed;
+    }
+}

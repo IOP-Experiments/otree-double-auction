@@ -1,0 +1,93 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+Part 1
+{% endblock %}
+
+{% block content %}
+
+
+
+{% if subsession.round_number <= session.config.num_of_test_rounds %}
+    <h3>Test round <strong>{{ subsession.round_number }}</strong> of {{ session.config.num_of_test_rounds }}</h3>
+
+    {% else %}
+
+
+    <h3>Round <strong>{{ round_number }}</strong> of {{ num_of_rounds }}</h3>
+    {% endif %}
+
+<br>
+
+<h3>Feedback</h3>
+
+<br>
+
+
+    {% if player.match_with %}
+        {% if participant.vars.role == "seller" %}
+        <h4>In this round, your costs were {{ player.cost }}. You traded with buyer {{ player.match_with.display_id }} at price {{ player.value }}.  Your payoff in this round is <strong>{{ player.payoff }}</strong>.</h4>
+        {% else %}
+        <h4>In this round, your valuation was {{ player.money }}. You traded with seller {{ player.match_with.display_id }} at price {{ player.value }}. Your payoff in this round is <strong>{{ player.payoff }}</strong>.</h4>
+        {% endif %}
+    {% else %}
+    <h4>You did not trade in this round. Your payoff in this round is equal to 0.</h4>
+    {% endif %}
+    <br>
+    <br>
+    <div class="white-background">
+        <div id="transaction">
+                <h3>Transaction History</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Buyer</th>
+                            <th>Trading Price</th>
+                            <th>Seller</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="transaction in transactions">
+                            <td>buyer ${ transaction.buyer_id_in_group }
+                                <span v-if="transaction.buyer === playerId" class="badge badge-primary">you</span>
+                            </td>
+                            <td>${ transaction.value }</td>
+                            <td>seller ${ transaction.seller_id_in_group }
+                                <span v-if="transaction.seller === playerId" class="badge badge-primary">you</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    {% next_button %}
+{% endblock %}
+
+{% block styles %}
+<link href="{% static "double_auction/styles.css" %}" rel="stylesheet">
+<style type="text/css">
+    .otree-title {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static "double_auction/vue.js" %}"></script>
+<script>Vue.options.delimiters = ["${", "}"]</script>
+<script src="{% static "double_auction/toastr.min.js" %}"></script>
+
+<script>
+    var player = {
+        id: {{ player.id }}
+    }
+    var transactions = {{ transactions|json }};
+</script>
+<script src="{% static "double_auction/result.js" %}" charset="utf-8"></script>
+{% endblock %}
+

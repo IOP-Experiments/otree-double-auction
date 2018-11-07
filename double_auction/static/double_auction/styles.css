@@ -1,0 +1,43 @@
+body {
+  background-color: #eee; }
+
+.white-background {
+  padding: 1rem 2rem;
+  background-color: #fff; }
+
+#da_form {
+  margin: 2rem 0; }
+
+.status.match > strong {
+  color: #94E185; }
+
+.status.match > span {
+  animation: blinker 1s linear infinite; }
+
+span.label {
+  margin-left: 10px; }
+
+@keyframes blinker {
+  50% {
+    opacity: 0; } }
+
+.centered {
+  text-align: center; }
+
+.input-group {
+  max-width: 250px; }
+
+input[type=number].form-control {
+  width: 100%; }
+
+.top-margin {
+  margin-top: 10px; }
+
+.fixed {
+  table-layout: fixed; }
+
+#transaction td > span.label {
+  margin-left: 12px; }
+
+#transaction table {
+  table-layout: fixed; }

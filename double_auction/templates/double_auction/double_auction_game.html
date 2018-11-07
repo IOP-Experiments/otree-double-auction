@@ -1,0 +1,159 @@
+{% if subsession.round_number <= session.config.num_of_test_rounds %}
+<div class="alert alert-info">This is a test round!</div>
+{% endif %}
+<div id="info" class="instructions well well-lg">
+
+{% if subsession.round_number <= session.config.num_of_test_rounds %}
+    <h3>Test round <strong>{{ subsession.round_number }}</strong> of {{ session.config.num_of_test_rounds }}</h3>
+
+    {% else %}
+
+
+    <h3>Round <strong>{{ round_number }}</strong> of {{ num_of_rounds }}</h3>
+    {% endif %}
+
+    <p>
+        {% if participant.vars.role == "buyer" %}
+
+
+        <br>
+        <h2>Your valuation is <strong>{{ player.money }}</strong>.</h2>
+        <br>
+        You are buyer {{ player.display_id }}. You can submit a bid or accept a submitted ask to buy the good.
+
+        {% else %}
+
+    
+        <br>
+        <h2>Your production costs are <strong>{{player.cost }}</strong>.</h2>
+        <br>
+        You are seller {{ player.display_id }}. You can submit an ask or accept a submitted bid to sell the good.
+
+        {% endif %}
+
+    </p>
+
+</div>
+
+<div id="da_form">
+    <div v-if="!started" class="alert alert-warning">Market opens in <span id="start-delay-timer"></span></div>
+    <div v-if="!match && started">
+        <div v-if="!lock">
+            {% if participant.vars.role == 'seller' %}
+                {% if maxValue == player.cost %}
+                <label for="offer">Your only possible ask is {{ player.cost }}</label>
+                {% else %}
+                <label for="offer">Choose your ask between {{ player.cost }} and {{ maxValue }}</label>
+                {% endif %}
+            {% else %}
+                {% if minValue == player.money %}
+                <label for="offer">Your only possible bid is {{ player.money }}</label>
+                {% else %}
+                <label for="offer">Choose your bid between {{ minValue }} and {{player.money }}</label>
+                {% endif %}
+            {% endif %}
+            <div class="input-group">
+                <input id="offer" name="offer" class="form-control" type="number" min="{{ minValue }}" max="{{ maxValue }}" v-model="value" v-on:keyup.13="submitForm()">
+                <span class="input-group-btn">
+                    <button v-if="!match" type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+                </span>
+            </div>
+        </div>
+        <div v-if="lock" class="">Your current {% if participant.vars.role == 'buyer' %}bid{% else %}ask{% endif %} is <strong>${ value }</strong></div>
+        <button v-if="lock" type="button" class="btn btn-primary" onclick='clearbet()'>Clear</button>
+    </div>
+    <div v-if="match" class="alert alert-success">You successfully traded.</div>
+
+</div>
+<hr />
+
+<div class="white-background">
+    <div class="row">
+        <div class="col-8" id="app" style="margin-bottom: 40px; min-height:30vh;">
+            <h3>Current bids and asks</h3>
+            <table class="table fixed">
+                <thead>
+                    <tr>
+                        <th>Bids</th>
+                        <th>Asks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="row in table.rows">
+                        <td>
+                            <span v-if="row.r2" v-bind:class="{ 'match status': row.r2.match}">
+                                <strong >${ row.r2.value }</strong> - <small>buyer ${ row.r2.id_in_group }</small>
+                                <span v-if="row.r2.match" class="badge badge-success">trading</span>
+                                <span v-if="row.r2.id === playerId" class="badge badge-primary">you</span>
+                                <button type="button" v-if="isAcceptable(row.r2, 'buyer')" v-on:click="accept(row.r2)" class="btn btn-success btn-xs"><small>Accept</small></button>
+                            </span>
+                        </td>
+                        <td>
+                            <div v-if="row.r1" v-bind:class="{ 'match status': row.r1.match }">
+                                <strong>${ row.r1.value }</strong> - <small>seller ${ row.r1.id_in_group }</small>
+                                <span v-if="row.r1.match" class="badge badge-success">trading</span>
+                                <span v-if="row.r1.id === playerId" class="badge badge-primary">you</span>
+                                <button type="button" v-if="isAcceptable(row.r1, 'seller')" v-on:click="accept(row.r1)" class="btn btn-success btn-xs"><small>Accept</small></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="participant_table" class="col-4">
+            <h3>Market Participants</h3>
+            <table class="table table-bordered fixed">
+                <thead>
+                    <tr>
+                        <th>Buyer</th>
+                        <th>Seller</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="part in participants">
+                                
+                        <td vif="part[0]">
+                            ${ part[0].role } ${ part[0].id_in_group }
+                            <span v-if="part[0].id === playerId" class="badge badge-primary">you</span>
+                            <span v-if="part[0].status" class="badge badge-secondary">${ part[0].status }</span>
+                        </td>
+                        <td v-if="!part[0]"></td>
+                        <td v-if="part[1]">
+                            ${ part[1].role } ${ part[1].id_in_group }
+                            <span v-if="part[1].id === playerId" class="badge badge-primary">you</span>
+                            <span v-if="part[1].status" class="badge badge-secondary">${ part[1].status }</span>
+                        </td>
+                        <td v-if="!part[1]"></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="confirmModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{% if participant.vars.role == 'seller' %}Your ask{% else %}Your bid{% endif %}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div v-if="type === 'bid'" class="modal-body">
+                <p>Your ${strings.valueType} is <strong>${value}</strong> but there is a ${strings.comparison} ${strings.otherType} of <strong>${otherValue}</strong>.</p>
+                <p>You traded at the price of <strong>${result}</strong>.</p>
+            </div>
+            <div v-if="type === 'accept'" class="modal-body">
+                <p>By clicking Accept, you accept the ask from <strong>player ${playerIdInGroup}</strong> with a value of <strong>${value}</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button v-if="type === 'accept'" type="button" class="btn btn-primary" v-on:click="sendIt" data-dismiss="modal">Accept</button>
+                <button v-if="type === 'accept'" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button v-if="type === 'bid'" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

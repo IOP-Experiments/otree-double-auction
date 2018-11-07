@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+Part 1
+{% endblock %}
+
+{% block content %}
+
+<!--
+Documentation on how to write a django template here:
+https://docs.djangoproject.com/en/1.8/ref/templates/language/
+
+Bootstrap comes pre-loaded, so you can use any Bootstrap elements:
+http://getbootstrap.com/components/
+
+-->
+
+<div class="instructions well well-lg">
+
+    <h3>You have played 2 test rounds. You will now play another 10 rounds.</h3>
+    <br>
+       <h3> One of these 10 rounds will be randomly chosen in the end of part 3 to count for your payment. </h3>
+
+</div>
+
+    {% next_button %}
+
+{% endblock %}
+
+
+{% block styles %}
+<style type="text/css">
+    .otree-title {
+        text-align: center;
+    }
+</style>
+{% endblock %}
