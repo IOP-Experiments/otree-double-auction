@@ -180,8 +180,6 @@ class FirstWait(WaitPage):
             return da_players
         elif num_of_active_groups >= number_markets:
             player = waiting_players[0]
-            player.participant.vars["chosen_round"] = random.randint(self.session.config['num_of_test_rounds'] + 1, Constants.num_rounds)
-            player.participant.vars['game'] = 'lottery'
             return waiting_players
 
 
