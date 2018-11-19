@@ -46,7 +46,7 @@ class DA3Instructions(Page):
                 return "Answer is not correct"
     def vars_for_template(self):
         return {
-            'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["num_of_double_auction_players_per_group"]/2),
+            'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"]/2),
             'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"]
         }
     def before_next_page(self):
@@ -138,8 +138,8 @@ class WaitAfterRole(WaitPage):
         random.shuffle(buyer_ids)
 
         # Set timer for players
-        starttime = time.time() + self.session.config['round_delay_time']
-        endtime = starttime + self.session.config['round_play_time']
+        starttime = time.time() + self.session.config['delay_before_market_opens']
+        endtime = starttime + self.session.config['time_per_round']
         self.session.vars["starttime"] = starttime
         self.session.vars["endtime"] = endtime
 
@@ -182,10 +182,10 @@ class FirstWait(WaitPage):
         return self.subsession.round_number == 1
 
     def get_players_for_group(self, waiting_players):
-        num_of_da_players_per_group = self.session.config['num_of_double_auction_players_per_group']
+        num_of_da_players_per_group = self.session.config['market_size']
         num_of_active_groups = len(self.subsession.get_group_matrix())-1
-        num_of_double_auction_groups = self.session.config['num_of_double_auction_groups']
-        if num_of_active_groups < num_of_double_auction_groups and len(waiting_players) >= num_of_da_players_per_group:
+        number_markets = self.session.config['number_markets']
+        if num_of_active_groups < number_markets and len(waiting_players) >= num_of_da_players_per_group:
             logger.info('creating double auction group')
             da_players = waiting_players[:num_of_da_players_per_group]
             for i, p in enumerate(da_players):
@@ -196,7 +196,7 @@ class FirstWait(WaitPage):
                 else:
                     p.participant.vars["role"]="seller"
             return da_players
-        elif num_of_active_groups >= num_of_double_auction_groups:
+        elif num_of_active_groups >= number_markets:
             player = waiting_players[0]
             player.participant.vars["chosen_round"] = random.randint(self.session.config['num_of_test_rounds'] + 1, Constants.num_rounds)
             player.participant.vars['game'] = 'lottery'
