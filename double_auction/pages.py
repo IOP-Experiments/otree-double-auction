@@ -113,9 +113,9 @@ class WaitAfterRole(WaitPage):
         da_players = self.group.get_players()
 
         # setup valuation table
-        money_max_value = self.session.config['money_max_start_value']
-        money_min_value = self.session.config['money_min_start_value']
-        money_steps = self.session.config['money_value_steps']
+        money_max_value = self.session.config['valuation_max']
+        money_min_value = self.session.config['valuation_min']
+        money_steps = self.session.config['valuation_increments']
         num_of_values = floor( (money_max_value - money_min_value) / money_steps) + 1
 
         buyer_valuation = [ money_min_value + m * money_steps for m in range(num_of_values) ]
@@ -253,7 +253,7 @@ class Game(Page):
 
         return {
             'minValue': self.player.cost if self.participant.vars["role"]=="seller" else self.session.config["production_costs_min"],
-            'maxValue': self.player.money if self.participant.vars["role"]=="buyer" else self.session.config["money_max_start_value"],
+            'maxValue': self.player.money if self.participant.vars["role"]=="buyer" else self.session.config["valuation_max"],
             'lock': True if self.player.match_with else False,
             'participants': participant_table,
             'seconds_to_start': self.session.vars["starttime"] - time.time(),
