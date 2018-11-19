@@ -15,21 +15,7 @@ from .tasks import automated_bid
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
-class StartPage(Page):
-    pass
-
-
-
-class DA1InstructionsGeneralDA(Page):
-    timeout_seconds = 90
-    def is_displayed(self):
-        return self.subsession.round_number==1 and self.player.participant.vars['game']=='double_auction'
-    def vars_for_template(self):
-        return {
-            'payoff_per_point': c(1).to_real_world_currency(self.session),
-        }
-
-class DA3Instructions(Page):
+class Instructions(Page):
     timeout_seconds = 720
     form_model = 'player'
     form_fields = ["instructions_da1",  "instructions_da3", "instructions_da4"]
@@ -53,17 +39,13 @@ class DA3Instructions(Page):
         if self.timeout_happened:
             self.player.participant.vars['instructions_failed'] = True
 
-class DA2Part1(Page):
-    timeout_seconds = 10
-    def is_displayed(self):
-        return self.subsession.round_number==1 and self.player.participant.vars['game']=='double_auction'
 
-class DA6PostInstructions(Page):
+class PostInstructions(Page):
     timeout_seconds = 120
     def is_displayed(self):
         return self.subsession.round_number == 1 and 'instructions_failed' in self.player.participant.vars and self.player.participant.vars['game']=='double_auction'
 
-class DA7WhatNextDA(Page):
+class WhatNextDA(Page):
     timeout_seconds = 90
     def is_displayed(self):
         return self.subsession.round_number==1 and self.player.participant.vars['game']=='double_auction'
@@ -298,11 +280,9 @@ class EndResults(Page):
 
 page_sequence = [
     FirstWait,
-    DA1InstructionsGeneralDA,
-    DA2Part1,
-    DA3Instructions,
-    DA6PostInstructions,
-    DA7WhatNextDA,
+    Instructions,
+    PostInstructions,
+    WhatNextDA,
     InitialWait,
     Role,
     WaitAfterRole,
