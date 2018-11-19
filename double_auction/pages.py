@@ -122,9 +122,9 @@ class WaitAfterRole(WaitPage):
 
         logger.info("Buyer Valuation %s" % buyer_valuation)
 
-        cost_max_value = self.session.config['cost_max_start_value']
-        cost_min_value = self.session.config['cost_min_start_value']
-        cost_steps = self.session.config['cost_value_steps']
+        cost_max_value = self.session.config['production_costs_max']
+        cost_min_value = self.session.config['production_costs_min']
+        cost_steps = self.session.config['production_costs_increments']
         num_of_values = floor( (cost_max_value - cost_min_value) / cost_steps) + 1
 
         seller_valuation = [ cost_min_value + m * cost_steps for m in range(num_of_values) ]
@@ -252,7 +252,7 @@ class Game(Page):
         participant_table = [ list(i) for i in  zip_longest( buyer, seller) ]
 
         return {
-            'minValue': self.player.cost if self.participant.vars["role"]=="seller" else self.session.config["cost_min_start_value"],
+            'minValue': self.player.cost if self.participant.vars["role"]=="seller" else self.session.config["production_costs_min"],
             'maxValue': self.player.money if self.participant.vars["role"]=="buyer" else self.session.config["money_max_start_value"],
             'lock': True if self.player.match_with else False,
             'participants': participant_table,

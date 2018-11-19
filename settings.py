@@ -12,12 +12,24 @@ SESSION_CONFIG_DEFAULTS = {
 }
 
 SESSION_CONFIGS = [
-    #{
-    #    'name': 'public_goods',
-    #    'display_name': "Public Goods",
-    #    'num_demo_participants': 3,
-    #    'app_sequence': ['public_goods', 'payment_info'],
-    #},
+    {
+        'name': 'double_auction',
+        'display_name': "Double Auction",
+        'num_demo_participants': 2,
+        'num_of_double_auction_players_per_group' : 2,
+        'num_of_double_auction_groups' : 1,
+        'test_users': True,
+        'num_of_test_rounds': 2,
+        'money_min_start_value' : 30,
+        'money_max_start_value' : 110,
+        'money_value_steps' : 10,
+        'production_costs_min' : 10,
+        'production_costs_max' : 90,
+        'production_costs_increments' : 10,
+        'round_play_time' : 60,
+        'round_delay_time' : 10,
+        'app_sequence': ['double_auction'],
+    },
 ]
 
 
