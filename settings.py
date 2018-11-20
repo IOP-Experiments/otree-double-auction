@@ -32,6 +32,8 @@ SESSION_CONFIGS = [
     },
 ]
 
+CHANNEL_ROUTING = 'double_auction.routing.channel_routing'
+
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
