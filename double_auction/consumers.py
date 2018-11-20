@@ -23,7 +23,7 @@ from .helpers import handle_bid, get_player_from_code
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
-def ws_connect(connection, code):
+def websocket_connect(connection, code):
     """
     the user connects to the socket. He is added to the group channel and receives the current state on his personal channel
     """
@@ -75,7 +75,7 @@ def ws_connect(connection, code):
 
 
 # Connected to websocket.receive
-def ws_message(message, code):
+def websocket_message(message, code):
     """
     check what the user message contains and react accordingly
     """
@@ -105,7 +105,7 @@ def ws_message(message, code):
         })
 
 # Connected to websocket.disconnect
-def ws_disconnect(connection, code):
+def websocket_disconnect(connection, code):
     logger.info('player disconnected {}'.format( code ))
     player = get_player_from_code(code)
     session_code = player.participant.session.code
