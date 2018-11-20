@@ -1,12 +1,15 @@
-from channels import Group
-from channels.sessions import channel_session
 import random
-from .models import Player, Group as OtreeGroup, Constants
 import json
 import time
 import math
 import datetime
 import logging
+from channels import Group
+from channels.sessions import channel_session
+
+import otree.common_internal
+
+from .models import Player, Group as OtreeGroup, Constants
 
 from django.conf import settings
 
@@ -117,8 +120,9 @@ def websocket_disconnect(connection, code):
         player.participant.vars['is_bot'] = True
         player.participant.save()
         if not player.value:
-            logger.info("automated bid now: %s", player.participant.code)
-            automated_bid(code, player.round_number)
+            if otree.common_internal.USE_REDIS:
+                logger.info("automated bid now: %s", player.participant.code)
+                automated_bid(code, player.round_number)
         Group(session_code).send({
             "text": json.dumps({
                 "type": "status",
@@ -130,13 +134,14 @@ def websocket_disconnect(connection, code):
         random_seconds = random.random() * ( endtime - 3 - starttime)
         random_timestamp = starttime + random_seconds
         random_time = datetime.datetime.fromtimestamp(random_timestamp)
-        logger.info("schedule automated bid: %s %s %s, now_or_starttime: %s", player.participant.code, random_seconds, random_time, starttime)
         player.participant.vars['is_bot'] = True
         player.participant.save()
         player.is_bot = True
         player.save()
         if not player.value:
-            automated_bid.schedule(args=(code,player.round_number,), eta=random_time, convert_utc=True)
+            if otree.common_internal.USE_REDIS:
+                logger.info("schedule automated bid: %s %s %s, now_or_starttime: %s", player.participant.code, random_seconds, random_time, starttime)
+                automated_bid.schedule(args=(code,player.round_number,), eta=random_time, convert_utc=True)
         Group(session_code).send({
             "text": json.dumps({
                 "type": "status",
