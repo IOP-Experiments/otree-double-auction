@@ -12,6 +12,7 @@ Instructions
     errorExists = true;
     {% endif %}
 </script>
+
 <script src="{% static 'double_auction/instructions.js' %}" charset="utf-8"></script>
 {% endblock %}
 
@@ -40,13 +41,13 @@ http://getbootstrap.com/components/
 
     <p>There will be {{ num_of_rounds }} trading rounds in which you can earn points by trading.
         One of these {{ num_of_rounds }} rounds will be randomly chosen at the end of the study to count for your payment.
-        In each of the {{ num_of_rounds }} trading rounds, the market opens for 60 seconds,
+        In each of the {{ num_of_rounds }} trading rounds, the market opens for {{ market_time }} seconds,
         during which trading between buyers and sellers is possible.</p>
 
 
 
     <div class="img_box">
-            <img src="{% static "instructions/Bild1.png" %}" class="img-fluid" alt="Market" />
+            <img src="{% static "instructions/market_size_18.png" %}" class="img-fluid" alt="Market" />
         </div>
 
 
@@ -92,22 +93,22 @@ http://getbootstrap.com/components/
 
     <p>The following screenshot shows how the online market platform looks like:</p>
 
-    <div class="img_box">
-            <img src="{% static "instructions/buyernew.PNG" %}" class="img-fluid" width="600" alt="Market" />
+    <div class="img_box" align="center">
+            <img src="{% static "instructions/buyernew.png" %}" class="img-fluid" width="600" alt="Market" />
         </div>
     <br>
 
 
 
-    <p>In each trading round, buyers are numbered consecutively from 1 to 9.
+    <p>In each trading round, buyers are numbered consecutively from 1 to {{ daPlayers }} .
         The numbers change each round such that no buyer can be identified.
         In the example, the buyer has number 8. The valuation of the buyer in this round is 50,
         as you can see from the message on the screen <i>"Your valuation is 50"</i>.
         You see a list with all market participants at the right side of the screen.
         Bids and asks of the buyers and sellers are displayed in the table <i>"Current bids and asks"</i>. </p>
 
-    <p>At the beginning of each round, there is a countdown of 10 seconds during which each buyer learns his valuation.
-        Then the market opens for 60 seconds. While the market is open,
+    <p>At the beginning of each round, there is a countdown of {{ freeze_time }} seconds during which each buyer learns his valuation.
+        Then the market opens for {{ market_time }} seconds. While the market is open,
         each buyer can trade one unit of the good by accepting an ask of a seller or by submitting a bid
         (these are the two possible ways of trading shortly described before): </p>
 
@@ -181,13 +182,13 @@ http://getbootstrap.com/components/
 
     <p>The following screenshot shows how the online market platform looks like:</p>
 
-    <div class="img_box">
-            <img src="{% static "instructions/sellernew.PNG" %}" class="img-fluid" width="600" border="2" align="middle" alt="Market" />
+    <div class="img_box" align="center">
+            <img src="{% static "instructions/sellernew.png" %}" class="img-fluid" width="600" border="2" align="middle" alt="Market" />
         </div>
     <br>
 
 
-    <p>In each trading round, sellers are numbered consecutively from 1 to 9.
+    <p>In each trading round, sellers are numbered consecutively from 1 to {{ daPlayers }}.
         The numbers change each round such that no seller can be identified.
         In the example, the seller has number 6. The production costs of the seller in this round are 20,
         as you can see from the message on the screen <i>"Your production costs are 20"</i>.
@@ -195,7 +196,7 @@ http://getbootstrap.com/components/
         Bids and asks of the buyers and sellers are displayed in the table <i>"Current bids and asks"</i>. </p>
 
 
-    <p>At the beginning of each round, there is a countdown of 10 seconds during which each seller learns his production costs.
+    <p>At the beginning of each round, there is a countdown of {{ freeze_time }} seconds during which each seller learns his production costs.
         Then the market opens for 60 seconds. While the market is open, each seller can trade one unit of the good
         by accepting a bid of a buyer or by submitting an ask: </p>
 

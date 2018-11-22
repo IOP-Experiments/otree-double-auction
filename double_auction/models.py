@@ -23,13 +23,6 @@ class Constants(BaseConstants):
     players_per_group = None
     num_rounds = 12
 
-    moral_options_trolley = dict(
-        choices=[[1, 'Yes'],
-                 [2, 'No']],
-        widget=widgets.RadioSelectHorizontal
-    )
-
-
 class Subsession(BaseSubsession):
     pass
 
@@ -50,7 +43,7 @@ class Player(BasePlayer):
     )
     instructions_da4 = models.IntegerField(
         verbose_name="You are a buyer. Your valuation for the good is 40 points. Is it possible to submit a bid of 60 points?",
-        **Constants.moral_options_trolley
+
     )
 
     display_id = models.IntegerField()

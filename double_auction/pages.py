@@ -30,10 +30,13 @@ class Instructions(Page):
     def instructions_da4_error_message(self, value):
             if value != 2:
                 return "Answer is not correct"
+
     def vars_for_template(self):
         return {
             'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"]/2),
-            'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"]
+            'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"],
+            'market_time': self.session.config["time_per_round"],
+            'freeze_time': self.session.config["delay_before_market_opens"],
         }
     def before_next_page(self):
         if self.timeout_happened:
