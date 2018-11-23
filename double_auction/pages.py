@@ -32,11 +32,39 @@ class Instructions(Page):
                 return "Answer is not correct"
 
     def vars_for_template(self):
+        num_players = ceil(len(self.subsession.get_players())) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"])
+
+        if num_players == 2:
+            picture_path = "_2"
+        elif num_players == 4:
+            picture_path = "_4"
+        elif num_players == 6:
+            picture_path = "_6"
+        elif num_players == 8:
+            picture_path = "_8"
+        elif num_players == 10:
+            picture_path = "_10"
+        elif num_players == 12:
+            picture_path = "_12"
+        elif num_players == 14:
+            picture_path = "_14"
+        elif num_players == 16:
+            picture_path = "_16"
+        elif num_players == 18:
+            picture_path = "_18"
+        elif num_players == 20:
+            picture_path = "_20"
+        else:
+            picture_path = "_over_20"
+
+        picture_path = "instructions/num_players" + picture_path + ".png"
+
         return {
             'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"]/2),
             'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"],
             'market_time': self.session.config["time_per_round"],
             'freeze_time': self.session.config["delay_before_market_opens"],
+            'picture': picture_path
         }
     def before_next_page(self):
         if self.timeout_happened:
