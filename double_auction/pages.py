@@ -83,6 +83,7 @@ class WhatNextDA(Page):
     def vars_for_template(self):
         return {
             'payoff_per_point': c(1).to_real_world_currency(self.session),
+            'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"]
         }
 
 class Role(Page):
@@ -104,6 +105,10 @@ class AfterTestrounds(Page):
             self.player.participant.vars["is_bot"] = True
         else:
             self.player.participant.vars["is_bot"] = False
+    def vars_for_template(self):
+        return {
+            'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"]
+        }
 
 class InitialWait(WaitPage):
     template_name = 'double_auction/InitialWait.html'
