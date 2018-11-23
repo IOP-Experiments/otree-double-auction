@@ -59,12 +59,21 @@ class Instructions(Page):
 
         picture_path = "instructions/num_players" + picture_path + ".png"
 
+        label_buyer = "buyers"
+        label_seller = "sellers"
+
+        if num_players == 2:
+            label_buyer = "buyer"
+            label_seller = "seller"
+
         return {
             'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"]/2),
             'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"],
             'market_time': self.session.config["time_per_round"],
             'freeze_time': self.session.config["delay_before_market_opens"],
-            'picture': picture_path
+            'picture': picture_path,
+            'label_buyer': label_buyer,
+            'label_seller': label_seller
         }
     def before_next_page(self):
         if self.timeout_happened:
