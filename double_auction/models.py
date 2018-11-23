@@ -25,7 +25,7 @@ class Constants(BaseConstants):
 
     quiz_radio_button = dict(
         choices=[[1, 'Yes'],
-                   [2, 'No']],
+                 [2, 'No']],
         widget=widgets.RadioSelectHorizontal
     )
 
@@ -50,7 +50,6 @@ class Player(BasePlayer):
     instructions_da4 = models.IntegerField(
         verbose_name="You are a buyer. Your valuation for the good is 40 points. Is it possible to submit a bid of 60 points?",
         **Constants.quiz_radio_button
-
     )
 
     display_id = models.IntegerField()
