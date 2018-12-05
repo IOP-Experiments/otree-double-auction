@@ -2,7 +2,7 @@
 {% load staticfiles otree %}
 
 {% block title %}
-Double Auction
+Instructions
 {% endblock %}
 
 {% block content %}
@@ -28,10 +28,10 @@ http://getbootstrap.com/components/
         <li> Afterwards, you will learn your role: Seller or buyer.</li>
         <li> There will be two test trading rounds to make you familiar with the screen and the rules.
             The earnings from the test rounds do not count for payment.</li>
-        <li> After the two test rounds, there will be 10 trading rounds.</li>
-        <li> Remember: <b>One</b> out of the 10 trading rounds will be randomly chosen at the end of part 3 to count for payment.
+        <li> After the two test rounds, there will be {{ num_of_rounds }} trading rounds.</li>
+        <li> Remember: <b>One</b> out of the {{ num_of_rounds }} trading rounds will be randomly chosen at the end of the game to count for payment.
             The chosen round determines the money that will be added to your participation reward of {{ session.config.participation_fee }}.
-            One point equals {{ payoff_per_point }}. You will learn which round was chosen and the money you earned after finishing part 3.</li>
+            One point equals {{ payoff_per_point }}. You will learn which round was chosen and the money you earned after finishing the game.</li>
         <li> Due to technical problems or other reasons it can happen that participants drop out of the study.
             To carry on with the game, automated players will take the open spots.
             Such a bot will always offer the good at price equal to his production costs as a seller and bid at price equal to his valuation as a buyer.

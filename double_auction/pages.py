@@ -30,10 +30,24 @@ class Instructions(Page):
     def instructions_da4_error_message(self, value):
             if value != 2:
                 return "Answer is not correct"
+
     def vars_for_template(self):
+        num_players = ceil(len(self.subsession.get_players())) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"])
+
+        picture_path_number = num_players if num_players <= 20 else "over_20"
+        picture_path = "instructions/num_players_" + picture_path_number + ".png"
+
+        label_buyer = "buyer" if num_players == 2 else "buyers"
+        label_seller = "seller" num_players == 2 else "sellers"
+
         return {
             'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"]/2),
-            'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"]
+            'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"],
+            'market_time': self.session.config["time_per_round"],
+            'freeze_time': self.session.config["delay_before_market_opens"],
+            'picture': picture_path,
+            'label_buyer': label_buyer,
+            'label_seller': label_seller
         }
     def before_next_page(self):
         if self.timeout_happened:
@@ -52,6 +66,7 @@ class WhatNextDA(Page):
     def vars_for_template(self):
         return {
             'payoff_per_point': c(1).to_real_world_currency(self.session),
+            'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"]
         }
 
 class Role(Page):
@@ -73,6 +88,10 @@ class AfterTestrounds(Page):
             self.player.participant.vars["is_bot"] = True
         else:
             self.player.participant.vars["is_bot"] = False
+    def vars_for_template(self):
+        return {
+            'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"]
+        }
 
 class InitialWait(WaitPage):
     template_name = 'double_auction/InitialWait.html'
