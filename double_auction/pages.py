@@ -34,37 +34,11 @@ class Instructions(Page):
     def vars_for_template(self):
         num_players = ceil(len(self.subsession.get_players())) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"])
 
-        if num_players == 2:
-            picture_path = "_2"
-        elif num_players == 4:
-            picture_path = "_4"
-        elif num_players == 6:
-            picture_path = "_6"
-        elif num_players == 8:
-            picture_path = "_8"
-        elif num_players == 10:
-            picture_path = "_10"
-        elif num_players == 12:
-            picture_path = "_12"
-        elif num_players == 14:
-            picture_path = "_14"
-        elif num_players == 16:
-            picture_path = "_16"
-        elif num_players == 18:
-            picture_path = "_18"
-        elif num_players == 20:
-            picture_path = "_20"
-        else:
-            picture_path = "_over_20"
+        picture_path_number = num_players if num_players <= 20 else "over_20"
+        picture_path = "instructions/num_players_" + picture_path_number + ".png"
 
-        picture_path = "instructions/num_players" + picture_path + ".png"
-
-        label_buyer = "buyers"
-        label_seller = "sellers"
-
-        if num_players == 2:
-            label_buyer = "buyer"
-            label_seller = "seller"
+        label_buyer = "buyer" if num_players == 2 else "buyers"
+        label_seller = "seller" num_players == 2 else "sellers"
 
         return {
             'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"]/2),
