@@ -34,11 +34,11 @@ class Instructions(Page):
     def vars_for_template(self):
         num_players = ceil(len(self.subsession.get_players())) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"])
 
-        picture_path_number = num_players if num_players <= 20 else "over_20"
+        picture_path_number = str(num_players) if num_players <= 20 else "over_20"
         picture_path = "instructions/num_players_" + picture_path_number + ".png"
 
         label_buyer = "buyer" if num_players == 2 else "buyers"
-        label_seller = "seller" num_players == 2 else "sellers"
+        label_seller = "seller" if num_players == 2 else "sellers"
 
         return {
             'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"]/2),
