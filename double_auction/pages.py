@@ -10,6 +10,7 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 from itertools import zip_longest
 
+import otree.common_internal
 from .tasks import automated_bid
 
 # Get an instance of a logger
@@ -147,11 +148,15 @@ class WaitAfterRole(WaitPage):
         for index, player in enumerate(da_players):
             # create bots for missing players
             if 'is_bot' in player.participant.vars and player.participant.vars['is_bot']:
-                random_seconds = random.random() * ( endtime - 3 - starttime)
-                random_timestamp = starttime + random_seconds
-                random_time = datetime.datetime.fromtimestamp(random_timestamp)
-                logger.info("schedule automated bid: %s %s %s, starttime: %s", player.participant.code, random_seconds, random_time, datetime.datetime.fromtimestamp(starttime) )
-                automated_bid.schedule(args=(player.participant.code, player.round_number,), eta=random_time, convert_utc=True)
+                if player.participant.session.config['bot_enable']:
+                    if otree.common_internal.USE_REDIS:
+                        random_seconds = random.random() * ( endtime - 3 - starttime)
+                        random_timestamp = starttime + random_seconds
+                        random_time = datetime.datetime.fromtimestamp(random_timestamp)
+                        logger.info("schedule automated bid: %s %s %s, starttime: %s", player.participant.code, random_seconds, random_time, datetime.datetime.fromtimestamp(starttime) )
+                        automated_bid.schedule(args=(player.participant.code, player.round_number,), eta=random_time, convert_utc=True)
+                    else:
+                        logger.warning("you enabled bots but there will be no automated_bid if you don't enable redis (set REDIS_URL)")
 
             if player.participant.vars["role"]=="buyer":
                 if not buyer_valuation:
