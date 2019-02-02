@@ -120,9 +120,12 @@ def websocket_disconnect(connection, code):
         player.participant.vars['is_bot'] = True
         player.participant.save()
         if not player.value:
-            if otree.common_internal.USE_REDIS:
-                logger.info("automated bid now: %s", player.participant.code)
-                automated_bid(code, player.round_number)
+            if player.participant.session.config['bot_enable']:
+                if otree.common_internal.USE_REDIS:
+                    logger.info("automated bid now: %s", player.participant.code)
+                    automated_bid(code, player.round_number)
+                else:
+                    logger.warning("you enabled bots but there will be no automated_bid if you don't enable redis (set REDIS_URL)")
         Group(session_code).send({
             "text": json.dumps({
                 "type": "status",
@@ -139,9 +142,12 @@ def websocket_disconnect(connection, code):
         player.is_bot = True
         player.save()
         if not player.value:
-            if otree.common_internal.USE_REDIS:
-                logger.info("schedule automated bid: %s %s %s, now_or_starttime: %s", player.participant.code, random_seconds, random_time, starttime)
-                automated_bid.schedule(args=(code,player.round_number,), eta=random_time, convert_utc=True)
+            if player.participant.session.config['bot_enable']:
+                if otree.common_internal.USE_REDIS:
+                    logger.info("schedule automated bid: %s %s %s, now_or_starttime: %s", player.participant.code, random_seconds, random_time, starttime)
+                    automated_bid.schedule(args=(code,player.round_number,), eta=random_time, convert_utc=True)
+                else:
+                    logger.warning("you enabled bots but there will be no automated_bid if you don't enable redis (set REDIS_URL)")
         Group(session_code).send({
             "text": json.dumps({
                 "type": "status",

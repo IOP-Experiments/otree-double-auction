@@ -26,6 +26,7 @@ SESSION_CONFIGS = [
         'production_costs_min' : 10,
         'production_costs_max' : 90,
         'production_costs_increments' : 10,
+        'bot_enable': True,
         'time_per_round' : 60,
         'delay_before_market_opens' : 10,
         'app_sequence': ['double_auction'],
