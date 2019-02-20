@@ -72,40 +72,44 @@ Please acknowledge that the instructions as provided with the game are not compl
 
 **Configure Session**
 
-- `Number of participants`: Enter the total amount of participants of your session.
+- `Number of participants`: Enter the total amount of participants of your session. _Note that currently participants are evenly distributed to be buyer and seller._
 
 - `bot_enable`: Check if you want bots enabled (note that you need to run redis). 
 	`bot_enable (unchecked)`: Participants who leave the game by terminating their web session, will be indicated as "inactive" without further action. 
 	`bot_enable (checked)`: Participants who leave the game by terminating their web session, will be replaced by a bot. A bot will make a bid equal to the valuation (buyer) or production cost at a random point in time. Bots will be 				indicated as "bot" to all other players. If the participants restore their web session, the respective bots leave the game again.
 - `delay_before_market_opens`: Time in seconds before the market opens for trading.
 
-- `market_size`: Maximum number of players in each market
+- `market_size`: Maximum number of players in each market.
 
-- `num_of_test_rounds`:Number of test rounds
+- `number_markets´: Number of markets which are created within one session.
 
-- `production_costs_increments`: Production costs increments of the seller
+- `num_of_test_rounds`: Number of test rounds.
 
-- `production_costs_max`: Maximum production costs of seller
+- `production_costs_increments`: Production costs increments of the seller.
 
-- `production_costs_min`: Minimum production costs of seller
+- `production_costs_max`: Maximum production costs of seller.
+
+- `production_costs_min`: Minimum production costs of seller.
 
 - `test_users`:
 
-- `time_per_round`: Time in seconds of one round 
+- `time_per_round`: Time in seconds of one round.
 
-- `valuation_increments`: Valuation increments of the buyer
+- `valuation_increments`: Valuation increments of the buyer.
 
-- `valuation_max`: Maximum valuation of buyer 
+- `valuation_max`: Maximum valuation of buyer.
 
-- `valuation_min`: Minimum valuation of buyer
+- `valuation_min`: Minimum valuation of buyer.
 
-- `participant_fee`: Fixed fee per participant
+- `participant_fee`: Fixed fee per participant.
 
-- `real_world_currency_per_point`: Convertion rate of one point to real world currency
+- `real_world_currency_per_point`: Convertion rate of one point to real world currency.
 
 **How are valuations and production costs distributed?**
 
 The series of valuations (production costs) is created as following: The minimum valuation (production costs) is incremented by the specified parameter until the maximum valuation (production costs) is reached. The thereby generated values are then randomly assigned to the players. Each value is only assigned once among sellers and among buyers. When the number of players exceeds the number of values, the additional players receive a draw from another series, which is generated as described above.
 
-
-
+## General Remarks
+- Please make sure that the values of `Number of participants`, `market_size` and `number_markets` coincide and do not create a contradiction. 
+- The instructions are flexibel such that the picture of the market can vary from market_sizes of 2 to 20. After 20 the number of sellers and buyers do not fit the variable but rather shows "a bunch of sellers and buyers".
+- In case you want to change the valuations and/or production costs, please make sure to change the example calculations in the instructions.
