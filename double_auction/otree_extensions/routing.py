@@ -1,7 +1,6 @@
-from channels.routing import route
-from .consumers import websocket_connect, websocket_message, websocket_disconnect
+from .consumers import MarketConsumer
 from otree.channels.routing import channel_routing
-from channels.routing import include, route_class
+# from channels.routing import route_class
 
 
 double_auction_routing = [route("websocket.connect",
@@ -13,3 +12,4 @@ double_auction_routing = [route("websocket.connect",
 channel_routing += [
     include(double_auction_routing, path=r"^/double-auction"),
 ]
+
