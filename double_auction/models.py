@@ -67,6 +67,10 @@ class Transaction(models.Model):
         """
         Configuration for otreeutils admin extensions.
         """
+        data_view = {  # define this attribute if you want to include this model in the live data view
+            'exclude_fields': ['user_id'],
+            'link_with': 'user'
+        }
         
         export_data = {  # define this attribute if you want to include this model in the data export
             'exclude_fields': ['user_id'],
