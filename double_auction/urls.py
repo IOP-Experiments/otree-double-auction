@@ -1,0 +1,1 @@
+from otreeutils.admin_extensions.urls import urlpatterns

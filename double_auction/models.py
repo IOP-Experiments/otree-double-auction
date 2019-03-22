@@ -8,6 +8,8 @@ from otree.api import (
     Currency as c, currency_range
 )
 
+# for custom data export
+from otree.db.models import Model, ForeignKey
 
 author = 'Jan Dietrich'
 
@@ -60,3 +62,13 @@ class Transaction(models.Model):
     value = models.IntegerField()
     time = models.DateTimeField(auto_now=True)
     bot = models.BooleanField()
+
+    class CustomModelConf:
+        """
+        Configuration for otreeutils admin extensions.
+        """
+        
+        export_data = {  # define this attribute if you want to include this model in the data export
+            'exclude_fields': ['user_id'],
+            'link_with': 'user'
+        }
