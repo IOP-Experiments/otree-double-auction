@@ -56,7 +56,7 @@ def websocket_connect(connection, code):
             connection.reply_channel.send({
                 "text": json.dumps({
                     "type": "status",
-                    "status": "bot",
+                    "status": "inactive",
                     "player_id": p.id
                 })
             })
@@ -129,7 +129,7 @@ def websocket_disconnect(connection, code):
         Group(session_code).send({
             "text": json.dumps({
                 "type": "status",
-                "status": "bot",
+                "status": "inactive",
                 "player_id": player.id
             })
         })
@@ -151,7 +151,7 @@ def websocket_disconnect(connection, code):
         Group(session_code).send({
             "text": json.dumps({
                 "type": "status",
-                "status": "bot",
+                "status": "inactive",
                 "player_id": player.id
             })
         })
