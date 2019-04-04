@@ -3,6 +3,8 @@ from .consumers import websocket_connect, websocket_message, websocket_disconnec
 from otree.channels.routing import channel_routing
 from channels.routing import include, route_class
 
+from otreeutils.admin_extensions.routing import channel_routing
+
 
 double_auction_routing = [route("websocket.connect",
                 websocket_connect,  path=r'^/(?P<code>\w+)$'),

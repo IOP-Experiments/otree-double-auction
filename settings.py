@@ -33,7 +33,7 @@ SESSION_CONFIGS = [
 ]
 
 CHANNEL_ROUTING = 'double_auction.routing.channel_routing'
-
+ROOT_URLCONF = 'double_auction.urls'
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
@@ -74,3 +74,4 @@ SECRET_KEY = 'ij#)o(inrb3ejn(pie7-wkkcdbu&%ze9yc0=6@r-n*q@d)$pyl'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
 INSTALLED_APPS = ['otree']
+EXTENSION_APPS = ['otreeutils']
