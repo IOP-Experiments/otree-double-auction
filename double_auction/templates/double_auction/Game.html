@@ -52,7 +52,7 @@
 <script>
     var player = {
         id: {{ player.id }},
-        value: {{ player.value|json }},
+        value: {{ player.last_offer|json }},
         maxValue: {{ maxValue }},
         minValue: {{ minValue }},
         match: {{ lock|json }},

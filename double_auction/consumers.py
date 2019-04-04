@@ -60,13 +60,13 @@ def websocket_connect(connection, code):
                     "player_id": p.id
                 })
             })
-        if p.value is not None:
+        if p.last_offer is not None:
 
 
             if p.match_with is None:
 
                 message = json.dumps({
-                    "value": p.value,
+                    "value": p.last_offer,
                     "type": p.participant.vars["role"],
                     "player_id": p.id,
                     "player_id_in_group": p.display_id
@@ -119,7 +119,7 @@ def websocket_disconnect(connection, code):
     if 1 < remaining_seconds < 3:
         player.participant.vars['is_bot'] = True
         player.participant.save()
-        if not player.value:
+        if not player.last_offer:
             if player.participant.session.config['bot_enable']:
                 if otree.common_internal.USE_REDIS:
                     logger.info("automated bid now: %s", player.participant.code)
@@ -141,7 +141,7 @@ def websocket_disconnect(connection, code):
         player.participant.save()
         player.is_bot = True
         player.save()
-        if not player.value:
+        if not player.last_offer:
             if player.participant.session.config['bot_enable']:
                 if otree.common_internal.USE_REDIS:
                     logger.info("schedule automated bid: %s %s %s, now_or_starttime: %s", player.participant.code, random_seconds, random_time, starttime)

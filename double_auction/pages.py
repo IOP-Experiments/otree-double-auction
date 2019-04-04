@@ -212,7 +212,7 @@ class Results(Page):
     def vars_for_template(self):
         transactions = []
         for p in self.player.group.get_players():
-            if p.value is not None:
+            if p.last_offer is not None:
                 if p.participant.vars["role"] == "buyer" and p.match_with is not None:
                     message = {
                         "type": "transactions",
@@ -220,7 +220,7 @@ class Results(Page):
                         "buyer_id_in_group": p.display_id,
                         "seller": p.match_with.id,
                         "seller_id_in_group": p.match_with.display_id,
-                        "value": p.value
+                        "value": p.last_offer
                     }
                     transactions.append(message)
         return {
@@ -281,7 +281,7 @@ class EndResults(Page):
                 'round_number': i + 1 if i < self.session.config['num_of_test_rounds'] else i + 1 - self.session.config['num_of_test_rounds'],
                 'test_round': True if i < self.session.config['num_of_test_rounds'] else False,
                 'valuation': player.cost if self.player.participant.vars["role"]=="seller" else player.money,
-                'trading_price': player.value if player.match_with else "-",
+                'trading_price': player.last_offer if player.match_with else "-",
                 'payoff': player.payoff
             } for i, player in enumerate(self.player.in_all_rounds())
         ]

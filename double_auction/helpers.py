@@ -14,7 +14,7 @@ def update_value(player, value, is_bot):
         value = value,
         bot=is_bot
     )
-    player.value = value
+    player.last_offer = value
     player.save()
     return json.dumps({
         "player_id": player.id,
@@ -39,8 +39,8 @@ def handle_bid(bid_info, is_bot=False):
         other_player = find_match_and_get_other_player(new_value, player_role, optional_player_id, other_role_players)
 
         if other_player is not None:
-            if new_value != other_player.value:
-                new_value = other_player.value
+            if new_value != other_player.last_offer:
+                new_value = other_player.last_offer
 
             update_message = update_value(player, new_value, is_bot)
             messages.append(update_message)
@@ -59,10 +59,10 @@ def get_player_from_code(code):
     return Player.objects.filter(participant=participant, round_number=participant._round_number).first()
 
 def filter_other_players(other_role_players):
-    return [ p for p in other_role_players if p.value and p.match_with is None]
+    return [ p for p in other_role_players if p.last_offer and p.match_with is None]
 
 def check_match_with(other_player, new_value):
-    return other_player.value == new_value and other_player.match_with is None
+    return other_player.last_offer == new_value and other_player.match_with is None
 
 def handle_match(player, value, other_player, player_id):
     """ When a match happens, this functions handles it """
@@ -74,17 +74,17 @@ def handle_match(player, value, other_player, player_id):
     seller_id = int(player_id) if player.participant.vars["role"] == "seller" else other_player.id
 
     logger.info("seller %s and buyer %s match", seller_id, buyer_id)
-    logger.info("player %s and other_player %s match", player.value, other_player.value)
+    logger.info("player %s and other_player %s match", player.last_offer, other_player.last_offer)
 
     # update models
     buyer.match_with = seller
     seller.match_with = buyer
-    buyer.payoff = buyer.money - buyer.value
-    seller.payoff = seller.value - seller.cost
+    buyer.payoff = buyer.money - buyer.last_offer
+    seller.payoff = seller.last_offer - seller.cost
     other_player.save()
     player.save()
 
-    match = MatchMessage(buyer_id, seller_id, player.value)
+    match = MatchMessage(buyer_id, seller_id, player.last_offer)
     return match.getMessage()
 
 def get_other_player(other_player_id, other_role_players):
@@ -94,15 +94,15 @@ def get_other_player(other_player_id, other_role_players):
 def get_better_bids(players, player_role, new_value):
     """ Check if there are better bids from other users """
     for p in players:
-        if p.value:
-            if player_role == "seller" and p.value < new_value and not p.match_with or player_role == "buyer" and p.value > new_value and not p.match_with:
+        if p.last_offer:
+            if player_role == "seller" and p.last_offer < new_value and not p.match_with or player_role == "buyer" and p.last_offer > new_value and not p.match_with:
                 yield p
 
 
 def find_matching_player(player_role, new_value, other_role_players):
     filtered_other_players = filter_other_players(other_role_players)
     for other_player in filtered_other_players:
-        if player_role == "seller" and new_value <= other_player.value or player_role == "buyer" and new_value >= other_player.value:
+        if player_role == "seller" and new_value <= other_player.last_offer or player_role == "buyer" and new_value >= other_player.last_offer:
             logger.info("match!")
             return other_player
     return None

@@ -4,7 +4,7 @@ import json
 
 def clear_bet(user_id):
     player = Player.objects.get(id=user_id)
-    player.value = None
+    player.last_offer = None
     player.save()
     return [json.dumps({
         "player_id": player.id,

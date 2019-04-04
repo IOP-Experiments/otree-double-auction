@@ -13,9 +13,9 @@ from .messages import MatchMessage
 def automated_bid(code, round_number):
     player = get_player_from_code(code)
     session_code = player.participant.session.code
-    logging_info = 'automated_bid: round_number: {}, player_id: {}, code: {}, value: {}, display_id: {}, call_round_number: {}, is_bot: {}'.format(player.round_number, player.id, code, player.value, player.display_id, round_number, player.participant.vars['is_bot'])
+    logging_info = 'automated_bid: round_number: {}, player_id: {}, code: {}, value: {}, display_id: {}, call_round_number: {}, is_bot: {}'.format(player.round_number, player.id, code, player.last_offer, player.display_id, round_number, player.participant.vars['is_bot'])
     logger.info(logging_info)
-    if 'is_bot' in player.participant.vars and player.participant.vars['is_bot'] and player.match_with is None and player.value is None and player.round_number is round_number:
+    if 'is_bot' in player.participant.vars and player.participant.vars['is_bot'] and player.match_with is None and player.last_offer is None and player.round_number is round_number:
         player.is_bot = True
         player.save()
 
