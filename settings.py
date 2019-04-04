@@ -17,7 +17,6 @@ SESSION_CONFIGS = [
         'display_name': "Double Auction",
         'num_demo_participants': 2,
         'market_size' : 2,
-        'number_markets' : 1,
         'test_users': True,
         'num_of_test_rounds': 2,
         'valuation_min' : 30,

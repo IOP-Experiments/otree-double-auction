@@ -30,7 +30,11 @@ class Constants(BaseConstants):
     )
 
 class Subsession(BaseSubsession):
-    pass
+    def creating_session(self):
+        if self.round_number == 1:
+            if len(self.get_players()) % self.session.config['market_size'] != 0:
+                raise Exception('number of participant must be mulitple of market_size')
+
 
 class Group(BaseGroup):
     pass
