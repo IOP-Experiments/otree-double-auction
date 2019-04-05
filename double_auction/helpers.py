@@ -78,7 +78,9 @@ def handle_match(player, value, other_player, player_id):
 
     # update models
     buyer.match_with = seller
+    buyer.match_with_display_id = seller.display_id
     seller.match_with = buyer
+    seller.match_with_display_id  = buyer.display_id
     buyer.payoff = buyer.money - buyer.last_offer
     seller.payoff = seller.last_offer - seller.cost
     other_player.save()
