@@ -44,7 +44,7 @@ class Instructions(Page):
         label_seller = "seller" if num_players == 2 else "sellers"
 
         return {
-            'daPlayers': num_players / 2,
+            'daPlayers': market_size / 2,
             'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"],
             'market_time': self.session.config["time_per_round"],
             'freeze_time': self.session.config["delay_before_market_opens"],
