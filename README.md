@@ -61,13 +61,13 @@ docker-compose exec web otree resetdb
 _note: All docker containers must be running. After the resetdb the web container must be restarted._
 
 ## Data Export
-??
+Data can be exported from the admin panel.
 ## Creating a Session
 Once you run the oTree server, you can create a session by clicking "Create Session" in the "Sessions" tab.
 
 **General Notes**
 
-You need to configure your session by clicking "Configure Session" and verify that the variables "Number of participants", "market_size" and "number_markets" is consistent.
+You need to configure your session by clicking "Configure Session" and verify that the variables "Number of participants" and "market_size" is consistent.
 Please acknowledge that the instructions as provided with the game are not completely flexible to all settings. E.g. the examples provided in the instructions might be inconsistent with your settings: We calculate the profit of a trade on the example of a valuation of 50 but if you choose to only distribute valuations from 1 to 10, you would want to change the examples in the instructions manually.
 
 **Configure Session**
@@ -75,13 +75,11 @@ Please acknowledge that the instructions as provided with the game are not compl
 - `Number of participants`: Enter the total amount of participants of your session. _Note that currently participants are evenly distributed to be buyer and seller._
 
 - `bot_enable`: Check if you want bots enabled (note that you need to run redis). 
-	`bot_enable (unchecked)`: Participants who leave the game by terminating their web session, will be indicated as "inactive" without further action. 
-	`bot_enable (checked)`: Participants who leave the game by terminating their web session, will be replaced by a bot. A bot will make a bid equal to the valuation (buyer) or production cost at a random point in time. Bots will be 				indicated as "bot" to all other players. If the participants restore their web session, the respective bots leave the game again.
+  `bot_enable (unchecked)`: Participants who leave the game by terminating their web session, will be indicated as "inactive" without further action. 
+  `bot_enable (checked)`: Participants who leave the game by terminating their web session, will be replaced by a bot. A bot will make a bid equal to the valuation (buyer) or production cost at a random point in time. Bots will be indicated as "bot" to all other players. If the participants restore their web session, the respective bots leave the game again.
 - `delay_before_market_opens`: Time in seconds before the market opens for trading.
 
 - `market_size`: Maximum number of players in each market.
-
-- `number_markets´: Number of markets which are created within one session.
 
 - `num_of_test_rounds`: Number of test rounds.
 
@@ -90,8 +88,6 @@ Please acknowledge that the instructions as provided with the game are not compl
 - `production_costs_max`: Maximum production costs of seller.
 
 - `production_costs_min`: Minimum production costs of seller.
-
-- `test_users`:
 
 - `time_per_round`: Time in seconds of one round.
 
@@ -110,6 +106,6 @@ Please acknowledge that the instructions as provided with the game are not compl
 The series of valuations (production costs) is created as following: The minimum valuation (production costs) is incremented by the specified parameter until the maximum valuation (production costs) is reached. The thereby generated values are then randomly assigned to the players. Each value is only assigned once among sellers and among buyers. When the number of players exceeds the number of values, the additional players receive a draw from another series, which is generated as described above.
 
 ## General Remarks
-- Please make sure that the values of `Number of participants`, `market_size` and `number_markets` coincide and do not create a contradiction. 
-- The instructions are flexibel such that the picture of the market can vary from market_sizes of 2 to 20. After 20 the number of sellers and buyers do not fit the variable but rather shows "a bunch of sellers and buyers".
+- Please make sure that the values of `Number of participants`, `market_size` coincide and do not create a contradiction. 
+- The instructions are flexible such that the picture of the market can vary from market_sizes of 2 to 20. After 20 the number of sellers and buyers do not fit the variable but rather shows "a bunch of sellers and buyers".
 - In case you want to change the valuations and/or production costs, please make sure to change the example calculations in the instructions.
