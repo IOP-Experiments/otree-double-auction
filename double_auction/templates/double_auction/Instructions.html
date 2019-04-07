@@ -35,7 +35,7 @@ http://getbootstrap.com/components/
 
         <h3>General rules</h3>
 
-    <p>In the following, you will be interacting in an <b>online market</b> consisting of {{ daPlayers }} {{ label_buyer }} and {{ daPlayers }} {{ label_seller }}.
+    <p>In the following, you will be interacting in an <b>online market</b> consisting of {{ num_of_buyers }} {{ label_buyer }} and {{ num_of_sellers }} {{ label_seller }}.
         These are real people interacting in real-time. You will be randomly assigned to the role of a buyer or the role of a seller.
         You will keep this role throughout the entire duration of the game. You will learn your role after reading the instructions. </p>
 
@@ -98,7 +98,7 @@ http://getbootstrap.com/components/
 
 
 
-    <p>In each trading round, buyers are numbered consecutively from 1 to {{ daPlayers }} .
+    <p>In each trading round, buyers are numbered consecutively from 1 to {{ num_of_buyers }} .
         The numbers change each round such that no buyer can be identified.
         In the example, the buyer has number 8. The valuation of the buyer in this round is 50,
         as you can see from the message on the screen <i>"Your valuation is 50"</i>.
@@ -186,7 +186,7 @@ http://getbootstrap.com/components/
     <br>
 
 
-    <p>In each trading round, sellers are numbered consecutively from 1 to {{ daPlayers }}.
+    <p>In each trading round, sellers are numbered consecutively from 1 to {{ num_of_sellers }}.
         The numbers change each round such that no seller can be identified.
         In the example, the seller has number 6. The production costs of the seller in this round are 20,
         as you can see from the message on the screen <i>"Your production costs are 20"</i>.
