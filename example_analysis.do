@@ -6,7 +6,7 @@
 
 // First import your .csv or excel file. It is commonly labeled as "all_apps_wide_DATE"
 
-keep if sessioncode == "varrt0ot" // Insert the sessioncode you want to analyze. This drops all other sessions.
+keep if sessioncode == " " // Insert the sessioncode you want to analyze. This drops all other sessions.
 
 forvalues x = 1/12{ // Insert the number of rounds + test rounds. 10 Rounds + 2 Test rounds is the default value. 
 generate traded_price_r`x' = double_auction`x'playertrade //renames variable
