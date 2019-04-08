@@ -44,8 +44,8 @@ class Instructions(Page):
         label_seller = "seller" if num_players == 2 else "sellers"
 
         return {
-            'num_of_buyers': len([p for p in self.subsession.get_players() if p.participant.vars['role']=='buyer']),
-            'num_of_sellers': len([p for p in self.subsession.get_players() if p.participant.vars['role']=='seller']),
+            'num_of_buyers': ceil(market_size/2),
+            'num_of_sellers': floor(market_size/2),
             'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"],
             'market_time': self.session.config["time_per_round"],
             'freeze_time': self.session.config["delay_before_market_opens"],
