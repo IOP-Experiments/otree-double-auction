@@ -21,7 +21,7 @@ class Instructions(Page):
     form_model = 'player'
     form_fields = ["instructions_da1",  "instructions_da3", "instructions_da4"]
     def is_displayed(self):
-        return self.subsession.round_number==1 and self.player.participant.vars['game']=='double_auction'
+        return self.subsession.round_number==1
     def instructions_da1_error_message(self, value):
         if value != 10:
             return "Value is not correct"
@@ -33,7 +33,9 @@ class Instructions(Page):
                 return "Answer is not correct"
 
     def vars_for_template(self):
-        num_players = ceil(len(self.subsession.get_players())) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"])
+        num_players = len(self.subsession.get_players())
+        market_size = self.session.config['market_size']
+        num_markets = ceil(num_players / market_size)
 
         picture_path_number = str(num_players) if num_players <= 20 else "over_20"
         picture_path = "instructions/num_players_" + picture_path_number + ".png"
@@ -42,7 +44,8 @@ class Instructions(Page):
         label_seller = "seller" if num_players == 2 else "sellers"
 
         return {
-            'daPlayers': ceil(len(self.subsession.get_players())/2) if 'test_users' in self.session.config and self.session.config["test_users"] else ceil(self.session.config["market_size"]/2),
+            'num_of_buyers': ceil(market_size/2),
+            'num_of_sellers': floor(market_size/2),
             'num_of_rounds': Constants.num_rounds - self.session.config["num_of_test_rounds"],
             'market_time': self.session.config["time_per_round"],
             'freeze_time': self.session.config["delay_before_market_opens"],
@@ -58,12 +61,12 @@ class Instructions(Page):
 class PostInstructions(Page):
     timeout_seconds = 120
     def is_displayed(self):
-        return self.subsession.round_number == 1 and 'instructions_failed' in self.player.participant.vars and self.player.participant.vars['game']=='double_auction'
+        return self.subsession.round_number == 1 and 'instructions_failed' in self.player.participant.vars
 
 class WhatNextDA(Page):
     timeout_seconds = 90
     def is_displayed(self):
-        return self.subsession.round_number==1 and self.player.participant.vars['game']=='double_auction'
+        return self.subsession.round_number==1
     def vars_for_template(self):
         return {
             'payoff_per_point': c(1).to_real_world_currency(self.session),
@@ -73,7 +76,7 @@ class WhatNextDA(Page):
 class Role(Page):
     timeout_seconds = 15
     def is_displayed(self):
-        return self.subsession.round_number == 1 and self.player.participant.vars['game'] == 'double_auction'
+        return self.subsession.round_number == 1
     def before_next_page(self):
         if self.timeout_happened:
             self.player.participant.vars["is_bot"] = True
@@ -83,7 +86,7 @@ class Role(Page):
 class AfterTestrounds(Page):
     timeout_seconds = 20
     def is_displayed(self):
-        return self.subsession.round_number == self.session.config["num_of_test_rounds"] and self.player.participant.vars['game'] == 'double_auction'
+        return self.subsession.round_number == self.session.config["num_of_test_rounds"]
     def before_next_page(self):
         if self.timeout_happened:
             self.player.participant.vars["is_bot"] = True
@@ -97,17 +100,8 @@ class AfterTestrounds(Page):
 class InitialWait(WaitPage):
     template_name = 'double_auction/InitialWait.html'
 
-    def is_displayed(self):
-        """ is displayed """
-        return self.subsession.round_number == 1 and self.player.participant.vars['game'] == 'double_auction'
-
-
 class WaitAfterRole(WaitPage):
     template_name = 'double_auction/WaitAfterRole.html'
-
-    def is_displayed(self):
-        """ is displayed """
-        return self.player.participant.vars['game'] == 'double_auction'
 
     def after_all_players_arrive(self):
         """ after all players arrived """
@@ -190,7 +184,9 @@ class FirstWait(WaitPage):
     def get_players_for_group(self, waiting_players):
         num_of_da_players_per_group = self.session.config['market_size']
         num_of_active_groups = len(self.subsession.get_group_matrix())-1
-        number_markets = self.session.config['number_markets']
+        num_players = len(self.subsession.get_players())
+        market_size = self.session.config['market_size']
+        number_markets = ceil(num_players / market_size)
         if num_of_active_groups < number_markets and len(waiting_players) >= num_of_da_players_per_group:
             logger.info('creating double auction group')
             da_players = waiting_players[:num_of_da_players_per_group]
@@ -217,7 +213,7 @@ class Results(Page):
     def vars_for_template(self):
         transactions = []
         for p in self.player.group.get_players():
-            if p.value is not None:
+            if p.last_offer is not None:
                 if p.participant.vars["role"] == "buyer" and p.match_with is not None:
                     message = {
                         "type": "transactions",
@@ -225,7 +221,7 @@ class Results(Page):
                         "buyer_id_in_group": p.display_id,
                         "seller": p.match_with.id,
                         "seller_id_in_group": p.match_with.display_id,
-                        "value": p.value
+                        "value": p.last_offer
                     }
                     transactions.append(message)
         return {
@@ -286,13 +282,17 @@ class EndResults(Page):
                 'round_number': i + 1 if i < self.session.config['num_of_test_rounds'] else i + 1 - self.session.config['num_of_test_rounds'],
                 'test_round': True if i < self.session.config['num_of_test_rounds'] else False,
                 'valuation': player.cost if self.player.participant.vars["role"]=="seller" else player.money,
-                'trading_price': player.value if player.match_with else "-",
+                'trading_price': player.last_offer if player.match_with else "-",
                 'payoff': player.payoff
             } for i, player in enumerate(self.player.in_all_rounds())
         ]
-        self.player.participant.vars["da_payoffs"]=rounds_payoff
+        chosen_payoff = self.player.in_all_rounds()[self.participant.vars['chosen_round']-1].payoff
         return {
-            'rounds_payoff': rounds_payoff
+            'chosenRoundDisplay': self.player.participant.vars["chosen_round"] - self.session.config['num_of_test_rounds'],
+            'rounds_payoff': rounds_payoff,
+            'chosen_payoff': chosen_payoff,
+            'real_world_reward': c(chosen_payoff).to_real_world_currency(self.session)
+
         }
     def before_next_page(self):
         payoff_player = self.player.in_all_rounds()[self.participant.vars['chosen_round']-1]

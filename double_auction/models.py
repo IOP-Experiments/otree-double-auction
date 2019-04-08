@@ -30,7 +30,11 @@ class Constants(BaseConstants):
     )
 
 class Subsession(BaseSubsession):
-    pass
+    def creating_session(self):
+        if self.round_number == 1:
+            if len(self.get_players()) % self.session.config['market_size'] != 0:
+                raise Exception('number of participant must be mulitple of market_size')
+
 
 class Group(BaseGroup):
     pass
@@ -38,8 +42,10 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     money = models.IntegerField()
     cost = models.IntegerField()
-    value = models.IntegerField()
+    last_offer = models.IntegerField()
+    trade_price = models.IntegerField()
     match_with = models.OneToOneField('Player', null=True)
+    match_with_player_id_in_group = models.IntegerField()
     instructions_da1 = models.IntegerField(
         verbose_name="You are a buyer. Your valuation for the good is 50 points. You submit a bid of 40 points and a seller accepts this bid. What are your earnings (in points)?",
     )

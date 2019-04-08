@@ -27,9 +27,9 @@ Online Market
 
     {% if player.match_with %}
         {% if participant.vars.role == "seller" %}
-        <h4>In this round, your costs were {{ player.cost }}. You traded with buyer {{ player.match_with.display_id }} at price {{ player.value }}.  Your payoff in this round is <strong>{{ player.payoff }}</strong>.</h4>
+        <h4>In this round, your costs were {{ player.cost }}. You traded with buyer {{ player.match_with.display_id }} at price {{ player.trade_price }}.  Your payoff in this round is <strong>{{ player.payoff }}</strong>.</h4>
         {% else %}
-        <h4>In this round, your valuation was {{ player.money }}. You traded with seller {{ player.match_with.display_id }} at price {{ player.value }}. Your payoff in this round is <strong>{{ player.payoff }}</strong>.</h4>
+        <h4>In this round, your valuation was {{ player.money }}. You traded with seller {{ player.match_with.display_id }} at price {{ player.trade_price }}. Your payoff in this round is <strong>{{ player.payoff }}</strong>.</h4>
         {% endif %}
     {% else %}
     <h4>You did not trade in this round. Your payoff in this round is equal to 0.</h4>

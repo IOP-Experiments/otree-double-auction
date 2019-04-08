@@ -7,9 +7,8 @@ Online Market
 
 {% block content %}
 
-Feedback
+<h4>The computer randomly selected round {{ chosenRoundDisplay }} to count for your payment. You earned {{ chosen_payoff }} which equals {{ real_world_reward }}.</h4>
 
-<br>
 <table id="payoff_table" class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -25,7 +24,7 @@ Feedback
         </tr>
     </thead>
     <tbody>
-        <tr v-for="payoff in roundsPayoff" v-bind:class="{ warning: payoff.test_round }">
+        <tr v-for="(payoff, index) in roundsPayoff" v-bind:class="{ warning: payoff.test_round, 'bg-success': index+1 === chosenRound }">
             <td>${ payoff.round_number }  <span v-if="payoff.test_round" class="badge badge-info">Test</span></td>
             <td>${ payoff.valuation }</td>
             <td>${ payoff.trading_price }</td>

@@ -5,6 +5,8 @@ from os import environ
 # the session config can be accessed from methods in your apps as self.session.config,
 # e.g. self.session.config['participation_fee']
 
+EXTENSION_APPS = ['double_auction']
+
 SESSION_CONFIG_DEFAULTS = {
     'real_world_currency_per_point': 1.00,
     'participation_fee': 0.00,
@@ -17,8 +19,6 @@ SESSION_CONFIGS = [
         'display_name': "Double Auction",
         'num_demo_participants': 2,
         'market_size' : 2,
-        'number_markets' : 1,
-        'test_users': True,
         'num_of_test_rounds': 2,
         'valuation_min' : 30,
         'valuation_max' : 110,
@@ -32,9 +32,6 @@ SESSION_CONFIGS = [
         'app_sequence': ['double_auction'],
     },
 ]
-
-CHANNEL_ROUTING = 'double_auction.routing.channel_routing'
-
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
