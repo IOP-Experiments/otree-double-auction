@@ -286,9 +286,13 @@ class EndResults(Page):
                 'payoff': player.payoff
             } for i, player in enumerate(self.player.in_all_rounds())
         ]
-        self.player.participant.vars["da_payoffs"]=rounds_payoff
+        chosen_payoff = self.player.in_all_rounds()[self.participant.vars['chosen_round']-1].payoff
         return {
-            'rounds_payoff': rounds_payoff
+            'chosenRoundDisplay': self.player.participant.vars["chosen_round"] - self.session.config['num_of_test_rounds'],
+            'rounds_payoff': rounds_payoff,
+            'chosen_payoff': chosen_payoff,
+            'real_world_reward': c(chosen_payoff).to_real_world_currency(self.session)
+
         }
     def before_next_page(self):
         payoff_player = self.player.in_all_rounds()[self.participant.vars['chosen_round']-1]
