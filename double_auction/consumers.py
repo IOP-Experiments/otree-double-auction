@@ -32,7 +32,8 @@ def websocket_connect(connection, code):
     """
     logger.info("Participant %s connected", code )
     player = get_player_from_code(code)
-    session_code = player.participant.session.code
+    session_code = player.participant.session.code + str(player.group.id_in_subsession)
+    logger.info('asdasd %s' % session_code)
     if 'is_bot' in player.participant.vars and player.participant.vars['is_bot']:
         player.is_bot = False
         player.save()
@@ -87,7 +88,7 @@ def websocket_message(message, code):
 
     player = get_player_from_code(code)
     logger.info(player.id)
-    session_code = player.participant.session.code
+    session_code = player.participant.session.code + str(player.group.id_in_subsession)
 
     action_type = jsonmessage["type"]
 
@@ -111,7 +112,7 @@ def websocket_message(message, code):
 def websocket_disconnect(connection, code):
     logger.info('player disconnected {}'.format( code ))
     player = get_player_from_code(code)
-    session_code = player.participant.session.code
+    session_code = player.participant.session.code + str(player.group.id_in_subsession)
     now = time.time()
     starttime = now if now > player.session.vars["starttime"] else player.session.vars["starttime"]
     endtime = player.session.vars["endtime"]
