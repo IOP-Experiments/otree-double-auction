@@ -16,21 +16,23 @@ There are two possible ways to setup and use this application:
 **Requirements:**
 
  - `Python`
- - `Redis` (optional, for bots. For a tutorial on how to install Redis on Windows 10, see https://redislabs.com/blog/redis-on-windows-10/)
+ - `Redis` (optional, for bots. Please install Redis from <https://github.com/MicrosoftArchive/redis/releases>)
 
 **Installation:**
+
 ```
 pip install -r requirements_base.txt
 ```
 
 **Start without bots:**
+
 ```
 otree devserver
 ```
 
 **Start with bots:**
 
-> Make sure that redis is running and `bot_enable` is set in `settings.py`
+> Make sure that Redis is running and `bot_enable` is set in `settings.py`
 
 ```
 otree runprodserver1of2         // web
@@ -79,7 +81,7 @@ Please acknowledge that the instructions as provided with the game are not compl
   `bot_enable (checked)`: Participants who leave the game by terminating their web session, will be replaced by a bot. A bot will make a bid equal to the valuation (buyer) or production cost at a random point in time. Bots will be indicated as "bot" to all other players. If the participants restore their web session, the respective bots leave the game again.
 - `delay_before_market_opens`: Time in seconds before the market opens for trading.
 
-- `market_size`: Maximum number of players in each market.
+- `market_size`: Maximum number of players in each market. If the market_size is smaller than the Number of participants, more markets within a session will be created.
 
 - `num_of_test_rounds`: Number of test rounds.
 
