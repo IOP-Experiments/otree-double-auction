@@ -4,6 +4,7 @@ from otree.models import Participant
 from double_auction.helpers import handle_bid, get_player_from_code
 from double_auction.controllers.bets import clear_bet
 from double_auction.tasks import automated_bid
+import otree.common_internal
 
 import time
 import random
@@ -36,9 +37,10 @@ class DoubleAuctionWebSocketConsumer(JsonWebsocketConsumer):
         messages = []
         for p in player.group.get_players():
             if 'is_bot' in p.participant.vars and p.participant.vars['is_bot']:
+                bot_label = 'bot' if player.session.config['bot_enable'] else 'inactive'
                 self.send({
                     "type": "status",
-                    "status": "inactive",
+                    "status": bot_label,
                     "player_id": p.id
                 })
             if p.last_offer is not None:
@@ -103,9 +105,10 @@ class DoubleAuctionWebSocketConsumer(JsonWebsocketConsumer):
                         automated_bid(code, player.round_number)
                     else:
                         logger.warning("you enabled bots but there will be no automated_bid if you don't enable redis (set REDIS_URL)")
+            bot_label = 'bot' if player.session.config['bot_enable'] else 'inactive'
             self.group_send(group_channel, {
                 "type": "status",
-                "status": "inactive",
+                "status": bot_label,
                 "player_id": player.id
             })
         elif remaining_seconds >= 3:
@@ -123,9 +126,10 @@ class DoubleAuctionWebSocketConsumer(JsonWebsocketConsumer):
                         automated_bid.schedule(args=(code,player.round_number,), eta=random_time, convert_utc=True)
                     else:
                         logger.warning("you enabled bots but there will be no automated_bid if you don't enable redis (set REDIS_URL)")
+            bot_label = 'bot' if player.session.config['bot_enable'] else 'inactive'
             self.group_send(group_channel, {
                 "type": "status",
-                "status": "inactive",
+                "status": bot_label,
                 "player_id": player.id
             })
         else:
