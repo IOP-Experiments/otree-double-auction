@@ -43,6 +43,7 @@ class Player(BasePlayer):
     money = models.IntegerField()
     cost = models.IntegerField()
     last_offer = models.IntegerField()
+    trade_price = models.IntegerField()
     match_with = models.OneToOneField('Player', null=True)
     match_with_player_id_in_group = models.IntegerField()
     instructions_da1 = models.IntegerField(
