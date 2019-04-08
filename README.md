@@ -63,7 +63,7 @@ docker-compose exec web otree resetdb
 _note: All docker containers must be running. After the resetdb the web container must be restarted._
 
 ## Data Export
-Data can be exported from the admin panel. For demonstration, "example_analysis.do" for STATA is provided to graph the average trading price, the average share of bots and the number of trades per round. For this example analysis, the data has to exported in wide format (i.e. "AllApps").
+Data can be exported from the admin panel. For demonstration, "example_analysis.do" for STATA is provided to graph the average trading price, the average share of bots and the number of trades per round. For this example analysis, the data has to be exported in wide format (i.e. "AllApps").
 ## Creating a Session
 Once you run the oTree server, you can create a session by clicking "Create Session" in the "Sessions" tab.
 
