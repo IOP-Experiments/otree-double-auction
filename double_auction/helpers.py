@@ -1,7 +1,6 @@
 from .models import Player, Transaction
 from otree.models import Participant
 from channels import Group
-import json
 import logging
 
 from .messages import MatchMessage, FailBidMessage
@@ -16,12 +15,12 @@ def update_value(player, value, is_bot):
     )
     player.last_offer = value
     player.save()
-    return json.dumps({
+    return {
         "player_id": player.id,
         "player_id_in_group": player.display_id,
         "value": value,
         "type": player.participant.vars["role"]
-    })
+    }
 
 def handle_bid(bid_info, is_bot=False):
     player = bid_info["player"]
