@@ -28,7 +28,7 @@ def automated_bid(code, round_number):
         responses = [responses] if isinstance(responses, str) else responses
         for response in responses:
             Group(session_code).send({
-                "text": response
+                "text": json.dumps(response)
             })
 
         logger.info("automated bid for %s", code)
