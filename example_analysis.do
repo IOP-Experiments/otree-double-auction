@@ -1,10 +1,9 @@
-// This is an example .do-File for Stata to analyze the average prices per round as well as the amount of bots per round. 
-
-// Please note that this file only works for one session and for 1 market per session. It is aimed to provide you with a general idea about the data structur of the data export.
-
-// Further note that the data ought to be exported as "AllApps" in the wide format.
-
-// First import your .csv or excel file. It is commonly labeled as "all_apps_wide_DATE"
+/*
+This is an example .do-File for Stata to analyze the average prices per round as well as the amount of bots per round. 
+Please note that this file only works for one session and for 1 market per session. It is aimed to provide you with a general idea about the data structur of the data export.
+Further note that the data ought to be exported as "AllApps" in the wide format.
+First import your .csv or excel file. It is commonly labeled as "all_apps_wide_DATE"
+*/
 
 keep if sessioncode == " " // Insert the sessioncode you want to analyze. This drops all other sessions.
 
