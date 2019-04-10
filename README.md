@@ -67,18 +67,18 @@ docker-compose exec web otree resetdb
 _note: All docker containers must be running. After the resetdb the web container must be restarted._
 
 ## Data Export
-Data can be exported from the admin panel. For demonstration, "example_analysis.do" for STATA is provided to graph the average trading price, the average share of bots and the number of trades per round. For this example analysis, the data has to be exported in wide format (i.e. "AllApps").
+Data can be exported from the admin panel. For a demonstration analysis, "example_analysis.do" for STATA is provided to graph the average trading price, the average share of bots and the number of trades per round. For this example analysis, the data has to be exported in wide format (i.e. "AllApps") and then imported to STATA manually. Note that this only works for one market per session.
 ## Creating a Session
 Once you run the oTree server, you can create a session by clicking "Create Session" in the "Sessions" tab.
 
 **General Notes**
 
 You need to configure your session by clicking "Configure Session" and verify that the variables "Number of participants" and "market_size" is consistent.
-Please acknowledge that the instructions as provided with the game are not completely flexible to all settings. E.g. the examples provided in the instructions might be inconsistent with your settings: We calculate the profit of a trade on the example of a valuation of 50 but if you choose to only distribute valuations from 1 to 10, you would want to change the examples in the instructions manually.
+Please acknowledge that the instructions as provided with the game are not completely flexible to all settings. E.g., the examples provided in the instructions might be inconsistent with your settings: We calculate the profit of a trade on the example of a valuation of 50 but if you choose to only distribute valuations from 1 to 10, you would want to change the examples in the instructions manually. In addition, if you disable the bot service, you should change the information about bots in the standard instructions.
 
 **Configure Session**
 
-- `Number of participants`: Enter the total amount of participants of your session. _Note that currently participants are evenly distributed to be buyer and seller._
+- `Number of participants`: Enter the total amount of participants of your session. _Note that currently participants are evenly distributed to be buyer and seller. In the case of an odd total number of participants, one more buyer is added to the market._
 
 - `bot_enable`: Check if you want bots enabled (note that you need to run redis). 
   `bot_enable (unchecked)`: Participants who leave the game by terminating their web session, will be indicated as "inactive" without further action. 
