@@ -11,6 +11,7 @@ There are two possible ways to setup and use this application:
 - classical oTree installation
 - run application in Docker container
 
+
 ## Classical Setup
 
 **Requirements:**
@@ -39,6 +40,9 @@ otree runprodserver1of2         // web
 otree runprodserver2of2         // worker
 ```
 
+**Video tutorial**
+
+For inexperienced users we provide a video tutorial on how to set up the Double Auction and run a session with 10 participants (with bots enabled). In this tutorial, we show how to set up oTree and all requirements from scratch, clone this repository and start two production servers. You can find the tutorial here: <https://youtu.be/dsedZKKyFHQ>
 
 ## Start with docker-compose
 
