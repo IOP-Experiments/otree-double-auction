@@ -24,7 +24,6 @@ var submitForm = function(event) {
     var el = document.getElementById("form");
     if (el.checkValidity()) {
         var formValue = parseInt(document.querySelector('[name=offer]').value);
-        debugger;
         if (player.role==="seller") {
             var betterBids = data.bids.filter( function(bid) { return bid.value > formValue; });
         } else {
