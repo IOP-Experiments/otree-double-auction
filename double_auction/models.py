@@ -61,8 +61,3 @@ class Player(BasePlayer):
     display_id = models.IntegerField()
     is_bot = models.BooleanField()
 
-class Transaction(models.Model):
-    user = models.ForeignKey(Player)
-    value = models.IntegerField()
-    time = models.DateTimeField(auto_now=True)
-    bot = models.BooleanField()
