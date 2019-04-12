@@ -1,4 +1,4 @@
-from .models import Player, Transaction
+from .models import Player
 from otree.models import Participant
 from channels import Group
 import logging
@@ -8,11 +8,6 @@ from .messages import MatchMessage, FailBidMessage
 logger = logging.getLogger(__name__)
 
 def update_value(player, value, is_bot):
-    new_bid = Transaction.objects.create(
-        user = player,
-        value = value,
-        bot=is_bot
-    )
     player.last_offer = value
     player.save()
     return {
