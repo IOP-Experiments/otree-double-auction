@@ -1,6 +1,5 @@
 from .models import Player
 from otree.models import Participant
-from channels import Group
 import logging
 
 from .messages import MatchMessage, FailBidMessage
@@ -14,7 +13,7 @@ def update_value(player, value, is_bot):
         "player_id": player.id,
         "player_id_in_group": player.display_id,
         "value": value,
-        "type": player.participant.vars["role"]
+        "type": 'action.value.' + player.participant.vars["role"]
     }
 
 def handle_bid(bid_info, is_bot=False):

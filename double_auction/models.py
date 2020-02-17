@@ -44,7 +44,7 @@ class Player(BasePlayer):
     cost = models.IntegerField()
     last_offer = models.IntegerField()
     trade_price = models.IntegerField()
-    match_with = models.OneToOneField('Player', null=True)
+    match_with = models.ForeignKey('Player', null=True, on_delete=models.CASCADE)
     match_with_player_id_in_group = models.IntegerField()
     instructions_da1 = models.IntegerField(
         verbose_name="You are a buyer. Your valuation for the good is 50 points. You submit a bid of 40 points and a seller accepts this bid. What are your earnings (in points)?",

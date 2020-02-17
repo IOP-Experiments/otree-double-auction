@@ -80,7 +80,7 @@
         sendmessage = function(value, optionalPlayerId) {
             var msg = {
                 id: {{player.id}},
-                type: "{{participant.vars.role}}",
+                type: "message.{{participant.vars.role}}",
                 value: value,
                 optionalPlayerId: optionalPlayerId
             };
@@ -120,7 +120,7 @@
         clearbet = function() {
             var msg = {
                 id: {{player.id}},
-                type: "clear",
+                type: "message.clear",
             };
             if(socket.readyState === 1){
                 socket.send(JSON.stringify(msg));

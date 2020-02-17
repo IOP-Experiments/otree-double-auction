@@ -1,4 +1,3 @@
-from channels import Group
 from ..models import Player
 
 def clear_bet(user_id):
@@ -7,5 +6,5 @@ def clear_bet(user_id):
     player.save()
     return [{
         "player_id": player.id,
-        "type": "clear"
+        "type": "action.clear"
     }]

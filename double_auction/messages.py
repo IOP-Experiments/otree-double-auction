@@ -6,7 +6,7 @@ class MatchMessage:
         self.value = value
     def getMessage(self):
         return {
-            "type": "match",
+            "type": "action.match",
             "buyer": self.buyer,
             "seller": self.seller,
             "value": self.value
@@ -15,6 +15,6 @@ class MatchMessage:
 class FailBidMessage:
     def getMessage(self):
         return {
-            "type": "error",
+            "type": "action.error",
             "error": "BadBid"
         }

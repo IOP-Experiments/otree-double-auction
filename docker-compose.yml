@@ -16,6 +16,7 @@ services:
       - redis
   worker:
     environment:
+      - DATABASE_URL=postgres://postgres@db/postgres
       - REDIS_URL=redis://redis:6379
     build: .
     command: otree runprodserver2of2

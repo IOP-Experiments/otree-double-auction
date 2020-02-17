@@ -162,7 +162,7 @@ function updateDomFromWsObj(obj) {
             document.getElementById("form").submit()
             break;
 
-        case "match":
+        case "action.match":
 
             if (obj.buyer === player.id || obj.seller === player.id) {
                 daForm.match = true;
@@ -186,7 +186,7 @@ function updateDomFromWsObj(obj) {
 
             break;
 
-        case "clear":
+        case "action.clear":
             if (obj.player_id === player.id) {
                 daForm.value = null;
                 daForm.lock = null;
@@ -201,7 +201,7 @@ function updateDomFromWsObj(obj) {
             })
             break;
 
-        case "error":
+        case "action.error":
             if (player.role==="buyer") {
                 toastr.error("There is a better bid than yours")
             } else {
@@ -209,7 +209,7 @@ function updateDomFromWsObj(obj) {
             }
             break;
 
-        case "status":
+        case "action.status":
             participantTable.participants.forEach( function(p) {
                 if (p[0].id === obj.player_id) {
                     p[0].status = obj.status;
@@ -256,7 +256,7 @@ function transformToTable(table, row1, row2) {
 
 function updateOrCreate(list, obj) {
 
-    key = obj.type === "seller" ? "asks" : "bids";
+    key = obj.type === "action.value.seller" ? "asks" : "bids";
     var existingElement = list[key].filter(el => el.id === obj.player_id)[0] || null;
 
     if (existingElement) {

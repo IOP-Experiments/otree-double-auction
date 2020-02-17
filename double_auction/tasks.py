@@ -1,6 +1,8 @@
 from huey.contrib.djhuey import task
-from channels import Group
+from channels.layers import get_channel_layer
+channel_layer = get_channel_layer()
 import json
+from asgiref.sync import async_to_sync
 
 import logging
 # Get an instance of a logger
@@ -20,6 +22,7 @@ def automated_bid(code, round_number):
         player.save()
 
         bid_info = {
+            "type": "action.value." + player.participant.vars["role"],
             "player": player,
             "value": player.money if player.participant.vars["role"] == "buyer" else player.cost,
             "optionalPlayerId": None
@@ -27,7 +30,7 @@ def automated_bid(code, round_number):
         responses = handle_bid(bid_info, is_bot=True)
         responses = [responses] if isinstance(responses, str) else responses
         for response in responses:
-            Group(session_code).send({
+            async_to_sync(channel_layer.group_send)(session_code, {
                 "text": json.dumps(response)
             })
 
