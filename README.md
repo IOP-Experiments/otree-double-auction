@@ -1,7 +1,5 @@
 # Setup and start the application
 
-NOTE: Please use oTree version 2.1.39 to run this application (use `pip3 install otree==2.1.39`)
-
 Clone this repo:
 ```
 git clone https://github.com/IOP-Experiments/otree-double-auction.git
